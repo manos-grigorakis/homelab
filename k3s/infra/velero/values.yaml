@@ -118,7 +118,7 @@ deployNodeAgent: true
 
 nodeAgent:
   extraArgs:
-    - "--node-agent-configmap=node-agent-config"
+    - "--node-agent-configmap=velero-node-agent-config"
 
 schedules:
   daily-full-backup:
@@ -140,11 +140,11 @@ schedules:
 
 configMaps:
   node-agent-config:
+    # Max two concurrent data movement operation per node
     data:
       node-agent-config.json: |
         {
           "loadConcurrency": {
-            # Max two concurrent data movement operation per node
             "globalConfig": 2
           }
         }
