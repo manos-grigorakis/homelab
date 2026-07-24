@@ -1,16 +1,4 @@
 ##
-## Configuration settings related to Velero installation namespace
-##
-
-# Labels settings in namespace
-namespace:
-  labels: {}
-
-##
-## End of namespace-related settings.
-##
-
-##
 ## Configuration settings that directly affect the Velero deployment YAML.
 ##
 
@@ -18,7 +6,7 @@ namespace:
 # enabling node-agent). Required.
 image:
   repository: velero/velero
-  tag: v1.17.1
+  tag: v1.18.1
   pullPolicy: IfNotPresent
 
 # Number of old history to retain to allow rollback (If not set, default Kubernetes value is set to 10)
@@ -34,15 +22,6 @@ resources:
     cpu: "500m"
     memory: "512Mi"
 
-# Resource requests/limits to specify for the upgradeCRDs job pod. Need to be adjusted by user accordingly.
-upgradeJobResources: {}
-upgradeCRDsJob:
-  automountServiceAccountToken: true
-
-# Configure the dnsPolicy of the Velero deployment
-# See: https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/#pod-s-dns-policy
-dnsPolicy: ClusterFirst
-
 # Init containers to add to the Velero deployment's pod spec. At least one plugin provider image is required.
 # If the value is a string then it is evaluated as a template.
 initContainers:
@@ -56,95 +35,6 @@ initContainers:
 # Settings for Velero's prometheus metrics. Enabled by default.
 metrics:
   enabled: false
-  scrapeInterval: 30s
-  scrapeTimeout: 10s
-
-  # Pod annotations for Prometheus
-  podAnnotations:
-    prometheus.io/scrape: "true"
-    prometheus.io/port: "8085"
-    prometheus.io/path: "/metrics"
-
-  serviceMonitor:
-    autodetect: true
-    enabled: false
-    annotations: {}
-    additionalLabels: {}
-
-    # metrics.serviceMonitor.metricRelabelings Specify Metric Relabelings to add to the scrape endpoint
-    # ref: https://github.com/coreos/prometheus-operator/blob/master/Documentation/api.md#relabelconfig
-    # metricRelabelings: []
-    # metrics.serviceMonitor.relabelings [array] Prometheus relabeling rules
-    # relabelings: []
-    # ServiceMonitor namespace. Default to Velero namespace.
-    # namespace:
-    # ServiceMonitor connection scheme. Defaults to HTTP.
-    # scheme: ""
-    # ServiceMonitor connection tlsConfig. Defaults to {}.
-    # tlsConfig: {}
-  nodeAgentPodMonitor:
-    autodetect: true
-    enabled: false
-    annotations: {}
-    additionalLabels: {}
-    # metrics.nodeAgentPodMonitor.metricRelabelings Specify Metric Relabelings to add to the scrape endpoint
-    # ref: https://github.com/coreos/prometheus-operator/blob/master/Documentation/api.md#relabelconfig
-    # metricRelabelings: []
-    # metrics.nodeAgentPodMonitor.relabelings [array] Prometheus relabeling rules
-    # relabelings: []
-    # PodMonitor namespace. Default to Velero namespace.
-    # namespace:
-    # PodMonitor connection scheme. Defaults to HTTP.
-    # scheme: ""
-    # PodMonitor connection tlsConfig. Defaults to {}.
-    # tlsConfig: {}
-
-  prometheusRule:
-    autodetect: true
-    enabled: false
-    # Additional labels to add to deployed PrometheusRule
-    additionalLabels: {}
-    # PrometheusRule namespace. Defaults to Velero namespace.
-    # namespace: ""
-    # Rules to be deployed
-    spec: []
-    # - alert: VeleroBackupFailed
-    #   annotations:
-    #     message: Velero backup {{ $labels.schedule }} has failed
-    #   expr: |-
-    #     velero_backup_last_status{schedule!=""} != 1
-    #   for: 15m
-    #   labels:
-    #     severity: warning
-    # - alert: VeleroBackupFailing
-    #   annotations:
-    #     message: Velero backup {{ $labels.schedule }} has been failing for the last 12h
-    #   expr: |-
-    #     velero_backup_last_status{schedule!=""} != 1
-    #   for: 12h
-    #   labels:
-    #     severity: critical
-    # - alert: VeleroNoNewBackup
-    #   annotations:
-    #     message: Velero backup {{ $labels.schedule }} has not run successfully in the last 25h
-    #   expr: |-
-    #     (
-    #     (time() - velero_backup_last_successful_timestamp{schedule!=""}) >bool (25 * 3600)
-    #     or
-    #     absent(velero_backup_last_successful_timestamp{schedule!=""})
-    #     ) == 1
-    #   for: 1h
-    #   labels:
-    #     severity: critical
-    # - alert: VeleroBackupPartialFailures
-    #   annotations:
-    #     message: Velero backup {{ $labels.schedule }} has {{ $value | humanizePercentage }} partialy failed backups
-    #   expr: |-
-    #     rate(velero_backup_partial_failure_total{schedule!=""}[25m])
-    #       / rate(velero_backup_attempt_total{schedule!=""}[25m]) > 0.5
-    #   for: 15m
-    #   labels:
-    #     severity: warning
 
 # This job upgrades the CRDs.
 upgradeCRDs: true
@@ -187,6 +77,9 @@ configuration:
         #  flag. For Velero client Command like velero backup describe, velero backup logs needs to add the flag --insecure-skip-tls-verify
         insecureSkipTLSVerify: true
 
+  # Comma separated list of velero feature flags. default: empty
+  features: EnableCSI
+
 ##
 ## End of backup/snapshot location settings.
 ##
@@ -202,13 +95,6 @@ rbac:
   clusterAdministrator: true
   # Name of the ClusterRole.
   clusterAdministratorName: cluster-admin
-
-# Information about the Kubernetes service account Velero uses.
-serviceAccount:
-  server:
-    create: true
-    # Configure if API credential for Service Account is automounted.
-    automountServiceAccountToken: true
 
 # Info about the secret to be used by the Velero deployment, which
 # should contain credentials for the cloud provider IAM account you've
@@ -228,7 +114,7 @@ backupsEnabled: true
 snapshotsEnabled: false
 
 # Whether to deploy the node-agent daemonset.
-deployNodeAgent: false
+deployNodeAgent: true
 
 schedules:
   daily-full-backup:

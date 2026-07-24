@@ -1,0 +1,14 @@
+apiVersion: snapshot.storage.k8s.io/v1
+kind: VolumeSnapshotClass
+metadata:
+  name: longhorn-backup-class
+  labels:
+    # Velero uses this label to find the right VolumeSnapshotClass
+    velero.io/csi-volumesnapshot-class: "true"
+driver: driver.longhorn.io
+deletionPolicy: Delete
+parameters:
+  # Available types:
+  # `bak`: Uses Longhorn's default backup target (i.e. NFS)
+  # `snap`: Uses Velero's configured storage (i.e. AWS S3)
+  type: snap
