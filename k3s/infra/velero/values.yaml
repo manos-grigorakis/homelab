@@ -116,6 +116,10 @@ snapshotsEnabled: false
 # Whether to deploy the node-agent daemonset.
 deployNodeAgent: true
 
+nodeAgent:
+  extraArgs:
+    - "--node-agent-configmap=node-agent-config"
+
 schedules:
   daily-full-backup:
     disabled: false
@@ -123,6 +127,7 @@ schedules:
     template:
       ttl: "168h" # 7 Days retain
       storageLocation: default
+      snapshotMoveData: true
       includedNamespaces:
         - "*"
       excludedNamespaces:
@@ -132,3 +137,14 @@ schedules:
         - longhorn-system
         - velero
         - metallb-system
+
+configMaps:
+  node-agent-config:
+    data:
+      node-agent-config.json: |
+        {
+          "loadConcurrency": {
+            # Max two concurrent data movement operation per node
+            "globalConfig": 2
+          }
+        }
