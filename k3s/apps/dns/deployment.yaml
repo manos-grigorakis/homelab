@@ -15,7 +15,7 @@ spec:
       labels:
         app: dns
     spec:
-      serviceAccountName: dns-service-accoun
+      serviceAccountName: dns-service-account
       containers:
         - name: pi-hole
           image: pihole/pihole:2026.06.0
