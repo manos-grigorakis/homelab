@@ -4,6 +4,7 @@ kind: Kustomization
 namespace: databases
 
 resources:
-  - databases-ns.yaml
+  - namespace.yaml
   - mariadb/
   - mysql/
+  - postgres/
