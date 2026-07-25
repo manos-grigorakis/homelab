@@ -13,6 +13,7 @@ spec:
       labels:
         app: mealie
     spec:
+      serviceAccountName: mealie-service-account
       containers:
         - name: mealie
           image: ghcr.io/mealie-recipes/mealie:latest
