@@ -19,6 +19,7 @@ spec:
         runAsUser: 3003 # UID
         runAsGroup: 3006 # GID
         fsGroup: 3006
+      serviceAccountName: immich-service-account
       containers:
         - name: immich-server
           image: ghcr.io/immich-app/immich-server:release
@@ -38,27 +39,34 @@ spec:
             - configMapRef:
                 name: immich-configmap
             - secretRef:
-                name: immich-secrets
+                name: immich-secret
           volumeMounts:
             - name: library
               mountPath: /data
-
+            - name: secrets-store-inline
+              mountPath: "/mnt/secrets-store"
+              readOnly: true
             - name: google-photos-external-library
               mountPath: /photos/google
               readOnly: true
-
             - name: usb-backups-external-library
               mountPath: /photos/usb-backups
               readOnly: true
       volumes:
+        - name: secrets-store-inline
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: "immich-secret-provider-class"
+
+        # Libraries
         - name: library
           persistentVolumeClaim:
             claimName: immich-library-nfs-pvc
-
         - name: google-photos-external-library
           persistentVolumeClaim:
             claimName: immich-google-photos-library-nfs-pvc
-
         - name: usb-backups-external-library
           persistentVolumeClaim:
             claimName: immich-usb-backups-library-nfs-pvc
