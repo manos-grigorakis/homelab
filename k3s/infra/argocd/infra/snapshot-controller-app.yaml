@@ -1,25 +1,19 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: velero
+  name: snapshot-controller
   namespace: argocd
 spec:
   destination:
-    namespace: velero
+    namespace: snapshot-controller
     server: https://kubernetes.default.svc
   sources:
-    - repoURL: https://vmware-tanzu.github.io/helm-charts
-      chart: velero
-      targetRevision: 12.1.0
-      helm:
-        valueFiles:
-          - $values/k3s/infra/velero/values.yaml
-
     - repoURL: https://github.com/manos-grigorakis/homelab.git
       targetRevision: main
-      path: k3s/infra/velero
-      ref: values
+      path: k3s/infra/snapshot-controller
   project: default
   syncPolicy:
+    automated:
+      selfHeal: true
     syncOptions:
       - CreateNamespace=true
