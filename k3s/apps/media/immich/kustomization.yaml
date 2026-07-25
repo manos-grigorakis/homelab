@@ -4,7 +4,7 @@ kind: Kustomization
 namespace: immich
 
 resources:
-  - immich-ns.yaml
+  - namespace.yaml
 
   - service-account.yaml
   - secret-provider-class.yaml
