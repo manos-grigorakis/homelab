@@ -22,10 +22,11 @@ spec:
           imagePullPolicy: IfNotPresent
           resources:
             requests:
-              memory: "200Mi"
-              cpu: "250m"
+              memory: "100Mi"
+              cpu: "256m"
             limits:
               memory: "1Gi"
+              cpu: "1000m"
           ports:
             - containerPort: 53
               protocol: TCP
@@ -57,9 +58,10 @@ spec:
           resources:
             requests:
               memory: "128Mi"
-              cpu: "100m"
+              cpu: "50m"
             limits:
               memory: "384Mi"
+              cpu: "500m"
           volumeMounts:
             - name: unbound-config-volume
               mountPath: /etc/unbound/unbound.conf
