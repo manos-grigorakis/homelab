@@ -75,6 +75,7 @@ homelab
 | [MetalLB](https://metallb.io/)                                  | IP Pool                 | Cluster     |
 | [Traefik](https://traefik.io/)                                  | Ingress / Load Balancer | Cluster     |
 | [Kubernetes Dashboard](https://github.com/kubernetes/dashboard) | Cluster Dashboard       | Cluster     |
+| [HashiCorp Vault](https://www.hashicorp.com/en/products/vault)  | Secrets Management      | Cluster     |
 
 ### Monitoring & Security
 
