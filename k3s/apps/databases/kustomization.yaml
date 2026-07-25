@@ -8,3 +8,4 @@ resources:
   - mariadb/
   - mysql/
   - postgres/
+  - redis/
