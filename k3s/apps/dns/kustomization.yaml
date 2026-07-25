@@ -4,18 +4,18 @@ kind: Kustomization
 namespace: dns
 
 resources:
-  - dns-ns.yaml
+  - namespace.yaml
 
-  - pihole-pvc.yaml
-  - unbound-pvc.yaml
+  - service-account.yaml
+  - secret-provider-class.yaml
 
-  - pihole-secret.sealed.yaml
   - pihole-configmap.yaml
   - unbound-configmap.yaml
 
-  - deployment.yaml
+  - pvc.yaml
 
-  - dns-service.yaml
-  - pihole-service.yaml
-  - pihole-redirect-middleware.yaml
+  - deployment.yaml
+  - service.yaml
+  - pihole-ui-service.yaml
+  - middleware.yaml
   - ingress-route.yaml

@@ -15,16 +15,18 @@ spec:
       labels:
         app: dns
     spec:
+      serviceAccountName: dns-service-account
       containers:
         - name: pi-hole
           image: pihole/pihole:2026.06.0
           imagePullPolicy: IfNotPresent
           resources:
             requests:
-              memory: "200Mi"
-              cpu: "250m"
+              memory: "100Mi"
+              cpu: "256m"
             limits:
               memory: "1Gi"
+              cpu: "1000m"
           ports:
             - containerPort: 53
               protocol: TCP
@@ -42,10 +44,13 @@ spec:
             - configMapRef:
                 name: pihole-configmap
             - secretRef:
-                name: pihole-secrets
+                name: dns-secret
           volumeMounts:
             - name: pihole-data
               mountPath: /etc/pihole
+            - name: secrets-store-inline
+              mountPath: "/mnt/secrets-store"
+              readOnly: true
 
         - name: unbound
           image: manosgrigorakis/unbound:latest
@@ -53,9 +58,10 @@ spec:
           resources:
             requests:
               memory: "128Mi"
-              cpu: "100m"
+              cpu: "50m"
             limits:
               memory: "384Mi"
+              cpu: "500m"
           volumeMounts:
             - name: unbound-config-volume
               mountPath: /etc/unbound/unbound.conf
@@ -74,3 +80,9 @@ spec:
         - name: unbound-data
           persistentVolumeClaim:
             claimName: unbound-pvc
+        - name: secrets-store-inline
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: "dns-secret-provider-class"
