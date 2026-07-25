@@ -10,5 +10,5 @@ deletionPolicy: Delete
 parameters:
   # Available types:
   # `bak`: Uses Longhorn's default backup target (i.e. NFS)
-  # `snap`: Uses Velero's configured storage (i.e. AWS S3)
+  # `snap`: Uses Velero's configured storage (i.e. AWS S3), node-agent must be enabled too
   type: bak
