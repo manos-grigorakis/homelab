@@ -20,3 +20,4 @@
 !infra/velero/values.yaml
 !infra/longhorn/values.yaml
 !infra/secrets-store-csi/values.yaml
+!infra/vault/values.yaml
