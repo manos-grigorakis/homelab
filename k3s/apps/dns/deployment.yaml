@@ -15,6 +15,7 @@ spec:
       labels:
         app: dns
     spec:
+      serviceAccountName: dns-service-accoun
       containers:
         - name: pi-hole
           image: pihole/pihole:2026.06.0
@@ -42,10 +43,13 @@ spec:
             - configMapRef:
                 name: pihole-configmap
             - secretRef:
-                name: pihole-secrets
+                name: dns-secret
           volumeMounts:
             - name: pihole-data
               mountPath: /etc/pihole
+            - name: secrets-store-inline
+              mountPath: "/mnt/secrets-store"
+              readOnly: true
 
         - name: unbound
           image: manosgrigorakis/unbound:latest
@@ -74,3 +78,9 @@ spec:
         - name: unbound-data
           persistentVolumeClaim:
             claimName: unbound-pvc
+        - name: secrets-store-inline
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: "dns-secret-provider-class"
