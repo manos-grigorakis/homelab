@@ -4,7 +4,8 @@ kind: Kustomization
 namespace: databases
 
 resources:
-  - secret.sealed.yaml
+  - service-account.yaml
+  - secret-provider-class.yaml
   - sts.yaml
   - service.yaml
   - service-lb.yaml

@@ -14,17 +14,27 @@ spec:
       labels:
         app: mariadb
     spec:
+      serviceAccountName: mariadb-service-account
       containers:
         - name: mariadb
           image: "mariadb:11.8"
           imagePullPolicy: IfNotPresent
           envFrom:
             - secretRef:
-                name: mariadb-secrets
+                name: mariadb-secret
           volumeMounts:
             - name: data
               mountPath: /var/lib/mysql
-
+            - name: secrets-store-inline
+              mountPath: "/mnt/secrets-store"
+              readOnly: true
+      volumes:
+        - name: secrets-store-inline
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: "mariadb-secret-provider-class"
   volumeClaimTemplates:
     - metadata:
         name: data

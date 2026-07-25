@@ -14,6 +14,7 @@ spec:
       labels:
         app: postgres
     spec:
+      serviceAccountName: postgres-service-account
       containers:
         - name: postgres
           image: "postgres:14"
@@ -25,12 +26,21 @@ spec:
               value: /var/lib/postgresql/data
           envFrom:
             - secretRef:
-                name: postgres-secrets
+                name: postgres-secret
           volumeMounts:
             - name: postgres-data
               mountPath: /var/lib/postgresql/data
               subPath: pgdata
-
+            - name: secrets-store-inline
+              mountPath: "/mnt/secrets-store"
+              readOnly: true
+      volumes:
+        - name: secrets-store-inline
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: "postgres-secret-provider-class"
   volumeClaimTemplates:
     - metadata:
         name: postgres-data
