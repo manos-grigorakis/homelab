@@ -1,0 +1,135 @@
+# Copyright IBM Corp. 2018, 2026
+# SPDX-License-Identifier: MPL-2.0
+
+# Available parameters and their default values for the Vault chart.
+
+global:
+  # enabled is the master enabled switch. Setting this to true or false
+  # will enable or disable all the components within this chart by default.
+  enabled: true
+
+  # The namespace to deploy to. Defaults to the `helm` installation namespace.
+  namespace: "vault"
+
+  # TLS for end-to-end encrypted transport
+  tlsDisable: true
+
+injector:
+  # True if you want to enable vault agent injection.
+  # @default: global.enabled
+  enabled: false
+
+server:
+  # If true, or "-" with global.enabled true, Vault server will be installed.
+  # See vault.mode in _helpers.tpl for implementation details.
+  enabled: "-"
+
+  image:
+    repository: "hashicorp/vault"
+    tag: "2.0.3"
+    # Overrides the default Image Pull Policy
+    pullPolicy: IfNotPresent
+
+  # Configure the Update Strategy Type for the StatefulSet
+  # See https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#update-strategies
+  updateStrategyType: "OnDelete"
+
+  # Configure the logging verbosity for the Vault server.
+  # Supported log levels include: trace, debug, info, warn, error
+  logLevel: "info"
+
+  # Configure the logging format for the Vault server.
+  # Supported log formats include: standard, json
+  logFormat: "standard"
+
+  # Resource requests, limits, etc. for the server cluster placement. This
+  # should map directly to the value of the resources field for a PodSpec.
+  # By default no direct resource request is made.
+  resources:
+    requests:
+      memory: 256Mi
+      cpu: 100m
+    limits:
+      memory: 512Mi
+      cpu: 500m
+
+  # This configures the Vault Statefulset to create a PVC for data
+  # storage when using the file or raft backend storage engines.
+  # See https://developer.hashicorp.com/vault/docs/configuration/storage to know more
+  dataStorage:
+    enabled: true
+    # Size of the PVC created
+    size: 10Gi
+    # Location where the PVC will be mounted.
+    mountPath: "/vault/data"
+    # Name of the storage class to use.  If null it will use the
+    # configured default Storage Class.
+    storageClass: longhorn
+    # Access Mode of the storage device being used for the PVC
+    accessMode: ReadWriteOnce
+
+  # Persistent Volume Claim (PVC) retention policy
+  # ref: https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#persistentvolumeclaim-retention
+  persistentVolumeClaimRetentionPolicy:
+    whenDeleted: Retain
+    whenScaled: Retain
+
+  # This configures the Vault Statefulset to create a PVC for audit
+  # logs.  Once Vault is deployed, initialized, and unsealed, Vault must
+  # be configured to use this for audit logs.  This will be mounted to
+  # /vault/audit
+  # See https://developer.hashicorp.com/vault/docs/audit to know more
+  auditStorage:
+    enabled: true
+    # Size of the PVC created
+    size: 2Gi
+    # Location where the PVC will be mounted.
+    mountPath: "/vault/audit"
+    # Name of the storage class to use.  If null it will use the
+    # configured default Storage Class.
+    storageClass: longhorn
+    # Access Mode of the storage device being used for the PVC
+    accessMode: ReadWriteOnce
+
+  # Run Vault in "HA" mode. There are no storage requirements unless the audit log
+  # persistence is required.  In HA mode Vault will configure itself to use Consul
+  # for its storage backend.  The default configuration provided will work the Consul
+  # Helm project by default.  It is possible to manually configure Vault to use a
+  # different HA backend.
+  ha:
+    enabled: false
+    replicas: 3
+
+# Vault UI
+ui:
+  # True if you want to create a Service entry for the Vault UI.
+  #
+  # serviceType can be used to control the type of service created. For
+  # example, setting this to "LoadBalancer" will create an external load
+  # balancer (for supported K8S installations) to access the UI.
+  enabled: true
+
+# secrets-store-csi-driver-provider-vault
+csi:
+  # True if you want to install a secrets-store-csi-driver-provider-vault daemonset.
+  #
+  # Requires installing the secrets-store-csi-driver separately, see:
+  # https://github.com/kubernetes-sigs/secrets-store-csi-driver#install-the-secrets-store-csi-driver
+  #
+  # With the driver and provider installed, you can mount Vault secrets into volumes
+  # similar to the Vault Agent injector, and you can also sync those secrets into
+  # Kubernetes secrets.
+  enabled: true
+
+  image:
+    repository: "hashicorp/vault-csi-provider"
+    tag: "1.7.3"
+    pullPolicy: IfNotPresent
+
+  resources:
+    requests:
+      cpu: 25m
+      memory: 64Mi
+    limits:
+      cpu: 100m
+      memory: 128Mi
