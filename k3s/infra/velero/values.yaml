@@ -127,7 +127,7 @@ schedules:
     template:
       ttl: "168h" # 7 Days retain
       storageLocation: default
-      snapshotMoveData: true
+      snapshotMoveData: false
       includedNamespaces:
         - "*"
       excludedNamespaces:
