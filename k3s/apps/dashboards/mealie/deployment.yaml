@@ -35,7 +35,16 @@ spec:
           volumeMounts:
             - name: mealie-data
               mountPath: /app/data
+            - name: secrets-store-inline
+              mountPath: "/mnt/secrets-store"
+              readOnly: true
       volumes:
         - name: mealie-data
           persistentVolumeClaim:
             claimName: mealie-pvc
+        - name: secrets-store-inline
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: "mealie-secret-provider-class"
