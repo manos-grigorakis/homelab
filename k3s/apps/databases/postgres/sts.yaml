@@ -26,7 +26,7 @@ spec:
               value: /var/lib/postgresql/data
           envFrom:
             - secretRef:
-                name: postgres-secrets
+                name: postgres-secret
           volumeMounts:
             - name: postgres-data
               mountPath: /var/lib/postgresql/data
