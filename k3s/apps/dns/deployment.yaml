@@ -17,6 +17,7 @@ spec:
     spec:
       serviceAccountName: dns-service-account
       containers:
+        # Pi-hole
         - name: pi-hole
           image: pihole/pihole:2026.06.0
           imagePullPolicy: IfNotPresent
@@ -40,18 +41,20 @@ spec:
             - containerPort: 443
               protocol: TCP
               name: https-ui
+          env:
+            - name: FTLCONF_WEBSERVER_API_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: dns-secret
+                  key: password
           envFrom:
             - configMapRef:
                 name: pihole-configmap
-            - secretRef:
-                name: dns-secret
           volumeMounts:
             - name: pihole-data
               mountPath: /etc/pihole
-            - name: secrets-store-inline
-              mountPath: "/mnt/secrets-store"
-              readOnly: true
 
+        # Unbound
         - name: unbound
           image: manosgrigorakis/unbound:latest
           imagePullPolicy: IfNotPresent
@@ -69,7 +72,6 @@ spec:
               readOnly: true
             - name: unbound-data
               mountPath: /var/lib/unbound/
-
       volumes:
         - name: pihole-data
           persistentVolumeClaim:
@@ -80,9 +82,3 @@ spec:
         - name: unbound-data
           persistentVolumeClaim:
             claimName: unbound-pvc
-        - name: secrets-store-inline
-          csi:
-            driver: secrets-store.csi.k8s.io
-            readOnly: true
-            volumeAttributes:
-              secretProviderClass: "dns-secret-provider-class"

@@ -6,8 +6,7 @@ namespace: dns
 resources:
   - namespace.yaml
 
-  - service-account.yaml
-  - secret-provider-class.yaml
+  - vault-secrets.yaml
 
   - pihole-configmap.yaml
   - unbound-configmap.yaml
