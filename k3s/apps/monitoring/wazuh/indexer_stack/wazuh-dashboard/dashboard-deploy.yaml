@@ -23,6 +23,7 @@ spec:
         app: wazuh-dashboard
       name: wazuh-dashboard
     spec:
+      serviceAccountName: wazuh-service-account
       volumes:
         - name: config
           configMap:

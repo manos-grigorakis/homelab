@@ -27,6 +27,7 @@ spec:
         node-type: worker
       name: wazuh-manager-worker
     spec:
+      serviceAccountName: wazuh-service-account
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:

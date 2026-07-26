@@ -27,6 +27,7 @@ spec:
         node-type: master
       name: wazuh-manager-master
     spec:
+      serviceAccountName: wazuh-service-account
       volumes:
         - name: config
           configMap:

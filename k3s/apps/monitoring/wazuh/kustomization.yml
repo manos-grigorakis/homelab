@@ -39,12 +39,7 @@ resources:
   - certs/indexer_cluster/indexer-selfsigned-certificate.yaml
   - certs/filebeat/filebeat-selfsigned-certificate.yaml
 
-  - secrets/internal-users-secret.sealed.yaml
-  - secrets/wazuh-api-cred-secret.sealed.yaml
-  - secrets/wazuh-authd-pass-secret.sealed.yaml
-  - secrets/wazuh-cluster-key-secret.sealed.yaml
-  - secrets/dashboard-cred-secret.sealed.yaml
-  - secrets/indexer-cred-secret.sealed.yaml
+  - secrets/vault-secrets.yaml
 
   - wazuh_managers/wazuh-cluster-svc.yaml
   - wazuh_managers/wazuh-master-svc.yaml
