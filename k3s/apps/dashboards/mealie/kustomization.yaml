@@ -5,8 +5,7 @@ namespace: mealie
 
 resources:
   - mealie-ns.yaml
-  - service-account.yaml
-  - secret-provider-class.yaml
+  - vault-secrets.yaml
   - configmap.yaml
   - pvc.yaml
   - deployment.yaml

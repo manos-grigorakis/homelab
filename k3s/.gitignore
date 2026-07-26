@@ -21,3 +21,4 @@
 !infra/longhorn/values.yaml
 !infra/secrets-store-csi/values.yaml
 !infra/vault/values.yaml
+!infra/vault-secrets-operator/values.yaml

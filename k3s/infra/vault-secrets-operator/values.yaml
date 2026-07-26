@@ -1,0 +1,57 @@
+# Copyright (c) HashiCorp, Inc.
+# SPDX-License-Identifier: BUSL-1.1
+
+# Top level configuration for the vault secrets operator deployment.
+# This consists of a controller and a kube rbac proxy container.
+controller:
+  # Set the number of replicas for the operator.
+  # @type: integer
+  replicas: 1
+
+  # Settings related to the vault-secrets-operator container.
+  manager:
+    # Image sets the repo and tag of the vault-secrets-operator image to use for the controller.
+    image:
+      pullPolicy: IfNotPresent
+      repository: hashicorp/vault-secrets-operator
+      tag: 1.5.0
+
+    # Global secret transformation options. In addition to the boolean options
+    # below, these options may be set via the
+    # `VSO_GLOBAL_TRANSFORMATION_OPTIONS` environment variable as a
+    # comma-separated list. Valid values are: `exclude-raw`
+    globalTransformationOptions:
+      # excludeRaw directs the operator to prevent _raw secret data being stored
+      # in the destination K8s Secret.
+      excludeRaw: true
+
+    # Global Vault auth options. In addition to the boolean options
+    # below, these options may be set via the
+    # `VSO_GLOBAL_VAULT_AUTH_OPTIONS` environment variable as a
+    # comma-separated list. Valid values are: `allow-default-globals`
+    globalVaultAuthOptions:
+      # allowDefaultGlobals directs the operator search for a "default"
+      # VaultAuthGlobal if none is specified on the referring VaultAuth CR.
+      # Default: true
+      # @type: boolean
+      allowDefaultGlobals: true
+
+# Configures the default VaultConnection CR which will be used by resources
+# if they do not specify a VaultConnection reference. The name is 'default' and will
+# always be installed in the same namespace as the operator.
+# NOTE:
+# * It is strongly recommended to deploy the vault secrets operator in a secure Vault environment
+#   which includes a configuration utilizing TLS and installing Vault into its own restricted namespace.
+defaultVaultConnection:
+  # toggles the deployment of the VaultAuthMethod CR
+  # @type: boolean
+  enabled: true
+
+  # Address of the Vault Server
+  # @type: string
+  # Example: http://vault.default.svc.cluster.local:8200
+  address: "http://vault.vault.svc.cluster.local:8200"
+
+  # SkipTLSVerify for TLS connections.
+  # @type: boolean
+  skipTLSVerify: false
