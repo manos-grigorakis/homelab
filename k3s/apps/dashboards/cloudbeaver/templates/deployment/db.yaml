@@ -18,6 +18,7 @@ spec:
         {{ .Release.Name }}-private-net: "true"
         app: db
     spec:
+      serviceAccountName: cloudbeaver-service-account
       containers:
         - image: dbeaver/cloudbeaver-postgres:13
           imagePullPolicy: "IfNotPresent"
