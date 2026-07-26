@@ -46,16 +46,7 @@ spec:
             - name: data
               mountPath: /var/lib/postgresql/data
               subPath: pgdata
-            - name: secrets-store-inline
-              mountPath: "/mnt/secrets-store"
-              readOnly: true
       volumes:
         - name: data
           persistentVolumeClaim:
             claimName: immich-postgres-pvc
-        - name: secrets-store-inline
-          csi:
-            driver: secrets-store.csi.k8s.io
-            readOnly: true
-            volumeAttributes:
-              secretProviderClass: "immich-secret-provider-class"
