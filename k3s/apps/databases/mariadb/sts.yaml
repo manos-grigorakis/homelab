@@ -19,22 +19,15 @@ spec:
         - name: mariadb
           image: "mariadb:11.8"
           imagePullPolicy: IfNotPresent
-          envFrom:
-            - secretRef:
-                name: mariadb-secret
+          env:
+            - name: MARIADB_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mariadb-secret
+                  key: ROOT_PASSWORD
           volumeMounts:
             - name: data
               mountPath: /var/lib/mysql
-            - name: secrets-store-inline
-              mountPath: "/mnt/secrets-store"
-              readOnly: true
-      volumes:
-        - name: secrets-store-inline
-          csi:
-            driver: secrets-store.csi.k8s.io
-            readOnly: true
-            volumeAttributes:
-              secretProviderClass: "mariadb-secret-provider-class"
   volumeClaimTemplates:
     - metadata:
         name: data
