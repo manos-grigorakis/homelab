@@ -4,10 +4,11 @@ kind: Kustomization
 namespace: immich
 
 resources:
-  - immich-ns.yaml
+  - namespace.yaml
 
+  - service-account.yaml
+  - secret-provider-class.yaml
   - configmap.yaml
-  - secret.sealed.yaml
 
   - db/pvc.yaml
 
@@ -19,11 +20,13 @@ resources:
   - server/libraries/usb-backups-library-nfs-pv.yaml
   - server/libraries/usb-backups-library-pvc.yaml
 
+  # Deploys
   - db/deployment.yaml
   - redis/deployment.yaml
   - server/deployment.yaml
   - ml/deployment.yaml
 
+  # Services
   - db/service.yaml
   - redis/service.yaml
   - server/service.yaml

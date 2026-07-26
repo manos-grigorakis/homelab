@@ -5,18 +5,19 @@ metadata:
   namespace: immich
 spec:
   replicas: 1
-  strategy: 
+  strategy:
     type: Recreate
   selector:
-    matchLabels: 
+    matchLabels:
       app: immich-database
   template:
     metadata:
-      labels:  
+      labels:
         app: immich-database
     spec:
       securityContext:
         fsGroup: 999
+      serviceAccountName: immich-service-account
       containers:
         - name: immich-postgres
           image: ghcr.io/immich-app/postgres:16-vectorchord0.4.3-pgvectors0.3.0
@@ -32,7 +33,7 @@ spec:
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: immich-secrets
+                  name: immich-secret
                   key: DB_PASSWORD
             - name: POSTGRES_DB
               valueFrom:
@@ -45,7 +46,16 @@ spec:
             - name: data
               mountPath: /var/lib/postgresql/data
               subPath: pgdata
+            - name: secrets-store-inline
+              mountPath: "/mnt/secrets-store"
+              readOnly: true
       volumes:
         - name: data
           persistentVolumeClaim:
             claimName: immich-postgres-pvc
+        - name: secrets-store-inline
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: "immich-secret-provider-class"
