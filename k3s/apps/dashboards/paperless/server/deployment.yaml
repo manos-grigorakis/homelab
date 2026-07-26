@@ -25,7 +25,7 @@ spec:
             - configMapRef:
                 name: server-configmap
             - secretRef:
-                name: server-secret
+                name: paperless-secret
           volumeMounts:
             - name: data
               mountPath: /usr/src/paperless/data
