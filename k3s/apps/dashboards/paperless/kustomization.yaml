@@ -4,7 +4,6 @@ kind: Kustomization
 namespace: paperless
 
 resources:
-  - paperless-ns.yaml
-
+  - namespace.yaml
   - redis/
   - server/

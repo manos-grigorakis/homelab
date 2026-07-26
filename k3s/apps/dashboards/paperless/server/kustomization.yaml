@@ -4,12 +4,9 @@ kind: Kustomization
 namespace: paperless
 
 resources:
-  - data-pvc.yaml
-  - media-pvc.yaml
-
+  - pvc.yaml
   - vault-secrets.yaml
   - configmap.yaml
-  - service.yaml
-
   - deployment.yaml
+  - service.yaml
   - ingress-route.yaml
