@@ -17,22 +17,16 @@ spec:
       containers:
         - name: mysql
           image: mysql:8.4
-          envFrom:
-            - secretRef:
-                name: mysql-secret
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: ROOT_PASSWORD
           volumeMounts:
             - name: data
               mountPath: /var/lib/mysql
-            - name: secrets-store-inline
-              mountPath: "/mnt/secrets-store"
-              readOnly: true
       volumes:
         - name: data
           persistentVolumeClaim:
             claimName: mysql-pvc
-        - name: secrets-store-inline
-          csi:
-            driver: secrets-store.csi.k8s.io
-            readOnly: true
-            volumeAttributes:
-              secretProviderClass: "mysql-secret-provider-class"
