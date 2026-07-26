@@ -43,9 +43,6 @@ spec:
           volumeMounts:
             - name: library
               mountPath: /data
-            - name: secrets-store-inline
-              mountPath: "/mnt/secrets-store"
-              readOnly: true
             - name: google-photos-external-library
               mountPath: /photos/google
               readOnly: true
@@ -53,13 +50,6 @@ spec:
               mountPath: /photos/usb-backups
               readOnly: true
       volumes:
-        - name: secrets-store-inline
-          csi:
-            driver: secrets-store.csi.k8s.io
-            readOnly: true
-            volumeAttributes:
-              secretProviderClass: "immich-secret-provider-class"
-
         # Libraries
         - name: library
           persistentVolumeClaim:
