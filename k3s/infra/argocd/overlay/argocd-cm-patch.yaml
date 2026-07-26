@@ -13,7 +13,7 @@ data:
     clientID: EjYMHoT4u9UDhGpfnwpQsA0k4idmXmK7k6NaV9Hj
 
     # Reference key in argocd-secret
-    clientSecret: $oidc.authentik.clientSecret
+    clientSecret: $argocd-oidc-secret:oidc.authentik.clientSecret
     requestedScopes:
       - openid
       - profile
