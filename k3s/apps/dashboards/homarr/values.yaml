@@ -48,10 +48,6 @@ env:
 database:
   # -- Enable external database
   externalDatabaseEnabled: false
-  # -- Database migration configuration.
-  # DB_MIGRATIONS_DISABLED Set to `true` to disable database migrations.
-  # Migrations are enabled by default (`false`).
-  migrationEnabled: true
 
 # Sensitive values that need to be passed in through environment variables should use kubernetes secrets. In order
 # to use this, create the secret in your target namespace before applying this helm chart. If you really want to,
@@ -60,7 +56,7 @@ envSecrets:
   # The name of Auth OIDC existing secret
   authOidcCredentials:
     # -- Name of existing secret containing OIDC credentials
-    existingSecret: "auth-oidc-secret"
+    existingSecret: "homarr-secret"
     # -- ID of OIDC client (application) secret key
     oidcClientId: "oidc-client-id"
     # -- Secret of OIDC client (application) secret key
@@ -68,75 +64,10 @@ envSecrets:
   # The name of DB Credentials existing secret
   dbCredentials:
     # -- Name of existing secret containing DB credentials
-    existingSecret: "homarr-secrets"
+    existingSecret: "homarr-secret"
     # -- Secret key for SECRET_ENCRYPTION_KEY
     # can be generated with `openssl rand -hex 32`
     dbEncryptionKey: "db-encryption-key"
-    # -- Secret key for DB_URL
-    # Example for internal database: `mysql://username:password@homarr-mysql:3306/homarrdb`
-    #dbUrlKey: "db-url"
-    # -- Secret key for DB_PASSWORD
-    #dbPasswordKey: "mysql-root-password"
-    # -- Secret key for database user
-    #dbUserPasswordKey: "mysql-password"
-
-# -- Pod annotations
-podAnnotations: {}
-# -- Pod labels
-podLabels: {}
-
-# Service configuration
-service:
-  # -- Enable service
-  enabled: true
-  # -- Service type
-  type: ClusterIP
-  ports:
-    app:
-      # -- Service port
-      port: 7575
-      # -- Service target port
-      targetPort: http
-      # -- Service protocol
-      protocol: TCP
-  # -- Defines how the service assigns IP families (IPv4/IPv6)
-  # Possible values:
-  # - SingleStack (default): Only one IP family, usually IPv4
-  # - PreferDualStack: Use dual-stack if the cluster supports it, fallback to single
-  # - RequireDualStack: Fail if dual-stack cannot be assigned
-  ipFamilyPolicy: SingleStack
-  # -- List of IP families to use for the service.
-  # Examples:
-  # - ["IPv4"]
-  # - ["IPv6"]
-  # - ["IPv4", "IPv6"] for dual-stack
-  # Leave empty to use cluster default behavior
-  ipFamilies: []
-
-livenessProbe:
-  httpGet:
-    # -- This is the liveness check endpoint used by Kubernetes to determine if the application is still running.
-    path: /api/health/live
-    # -- The port on which the liveness check will be performed. This must be the same as the container port exposed by the application.
-    port: 7575
-
-readinessProbe:
-  httpGet:
-    # -- This is the readiness check endpoint used by Kubernetes to determine if the application is ready to handle traffic.
-    path: /api/health/ready
-    # -- The port on which the readiness check will be performed. This must match the container's exposed port.
-    port: 7575
-
-# -- containerPorts defines the ports to open on the container. It is a map where each entry specifies:
-#    - `port`     (int)    (required): The port number to expose inside the container.
-#    - `protocol` (string) (required): The network protocol (TCP or UDP) used for the port.
-#    - `disabled` (bool)              : Optional flag to disable this port (defaults to false). Can be overridden via Helm values.
-#
-# By default, this configuration exposes TCP port 7575 with the name `http`.
-containerPorts:
-  http:
-    port: 7575
-    protocol: TCP
 
 # -- Resource configuration
 resources: {}
@@ -178,33 +109,9 @@ persistence:
     accessMode: "ReadWriteOnce"
     # -- homarr-database storage size
     size: "50Mi"
-    # -- homarr-database mount path inside the pod
-    mountPath: "/appdata"
-    # -- homarr-database optional volumeClaimName to target specific PV
-    volumeClaimName: ""
   homarrTrustedCerts:
     # -- Enable trusted certificates persistence
     enabled: false
-    # -- Persistence mode can be : configmap (declarative), secret (declarative) or existingSecret (mount an existing Kubernetes Secret by name and specify which keys to mount as files)
-    type: configmap
-    # -- Name of the existing Kubernetes Secret to mount (required if type is "existingSecret")
-    existingSecretName: ""
-    # -- List of keys (filenames) to mount from the existing secret (used only when type is "existingSecret")
-    existingSecretKeys:
-      # - cert3.crt
-      # - cert4.crt
-    # -- homarr-trusted-certificates  mount path inside the pod
-    mountPath: "/appdata/trusted-certificates"
-
-# -- Enable and configure Mysql database subchart under this key.
-#    For more options see [Mysql chart documentation](https://github.com/bitnami/charts/tree/main/bitnami/mysql)
-# @default -- See [values.yaml](https://github.com/homarr-labs/charts/blob/dev/charts/homarr/values.yaml)
-mysql:
-  internal: false
-  auth:
-    existingSecret: "homarr-secrets"
-    username: homarr
-    database: homarrdb
 
 # -- Enable RBAC resources for Kubernetes integration
 # Creates Role, ClusterRole, and associated bindings for Homarr's Kubernetes features
