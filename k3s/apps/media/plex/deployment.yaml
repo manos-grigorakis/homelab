@@ -15,6 +15,7 @@ spec:
       labels:
         app: plex
     spec:
+      serviceAccountName: plex-service-account
       dnsPolicy: ClusterFirst
       securityContext:
         supplementalGroups: [44, 993] # video and render
@@ -48,31 +49,25 @@ spec:
             - configMapRef:
                 name: plex-configmap
             - secretRef:
-                name: plex-secrets
+                name: plex-secret
           volumeMounts:
             - name: plex-config
               mountPath: /config
-
             - name: media
               mountPath: /data
-
             - name: transcode
               mountPath: /transcode
-
             - name: igpu-device
               mountPath: /dev/dri
       volumes:
         - name: plex-config
           persistentVolumeClaim:
             claimName: plex-pvc
-
         - name: media
           persistentVolumeClaim:
             claimName: media-pvc
-
         - name: transcode
           emptyDir: {}
-
         - name: igpu-device
           hostPath:
             path: /dev/dri

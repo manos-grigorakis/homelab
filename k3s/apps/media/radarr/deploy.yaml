@@ -26,15 +26,12 @@ spec:
           volumeMounts:
             - name: radarr-config
               mountPath: /config
-
             - name: media
               mountPath: /data
-
       volumes:
         - name: radarr-config
           persistentVolumeClaim:
             claimName: radarr-pvc
-
         - name: media
           persistentVolumeClaim:
             claimName: media-pvc
