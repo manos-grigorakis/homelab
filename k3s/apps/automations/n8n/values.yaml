@@ -36,7 +36,7 @@ taskRunners:
   # You can generate one with: openssl rand -base64 32
   authToken:
     # Use existing secret for auth token
-    existingSecret: "n8n-secret"
+    existingSecret: "n8n-secrets"
     existingSecretKey: "N8N_RUNNER_AUTH_TOKEN"
 
 # ----- Main replicas (when multi-main is disabled) -----
@@ -138,12 +138,12 @@ license:
   activationKey: ""
   # Or reference existing secret containing the license key
   existingSecret:
-    name: "n8n-secret" # <-- K8s Secret name
+    name: "n8n-secrets" # <-- K8s Secret name
     key: "N8N_LICENSE_KEY" # <-- Key inside the secret
 
 # ----- Secrets -----
 secretRefs:
-  existingSecret: "n8n-secret"
+  existingSecret: "n8n-secrets"
   env: {}
 
 # ----- Database (PostgreSQL - required for queue mode) -----
@@ -157,7 +157,7 @@ database:
   schema: "public" # <-- PostgreSQL schema name
   user: n8n
   passwordSecret:
-    name: "n8n-secret" # <-- K8s Secret name
+    name: "n8n-secrets" # <-- K8s Secret name
     key: "POSTGRES_DB_PASSWORD" # <-- Key inside the secret
   # SSL configuration
   ssl:
