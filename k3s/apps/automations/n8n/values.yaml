@@ -122,12 +122,6 @@ config:
       value: "1"
     - name: GENERIC_TIMEZONE
       value: "Europe/Athens"
-    - name: N8N_HOST
-      value: "n8n.poolnode.com"
-    - name: N8N_PORT
-      value: "5678"
-    - name: N8N_PROTOCOL
-      value: "https"
   extraEnvFrom: []
 
 # ----- License (for n8n Enterprise) -----
