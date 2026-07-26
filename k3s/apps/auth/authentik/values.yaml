@@ -1,10 +1,10 @@
 authentik:
   existingSecret:
-    secretName: "authentik-secrets"
+    secretName: "authentik-secret"
   # This sends anonymous usage-data, stack traces on errors and
   # performance data to sentry.io, and is fully opt-in
   error_reporting:
-    enabled: true
+    enabled: false
 
 server:
   ingress:
@@ -15,27 +15,32 @@ postgresql:
 
 global:
   env:
+    # Email
     - name: AUTHENTIK_EMAIL__HOST
       value: "mail.privateemail.com"
-
     - name: AUTHENTIK_EMAIL__PORT
       value: "587"
-
     - name: AUTHENTIK_EMAIL__USERNAME
       value: "admin@poolnode.net"
-
     - name: AUTHENTIK_EMAIL__USE_TLS
       value: "true"
-
     - name: AUTHENTIK_EMAIL__USE_SSL
       value: "false"
-
     - name: AUTHENTIK_EMAIL__TIMEOUT
       value: "10"
-
     - name: AUTHENTIK_EMAIL__FROM
       value: "admin@poolnode.net"
 
+    # PostgreSQL
+    - name: AUTHENTIK_POSTGRESQL__HOST
+      value: "postgres.databases.svc.cluster.local"
+    - name: AUTHENTIK_POSTGRESQL__PORT
+      value: "5432"
+    - name: AUTHENTIK_POSTGRESQL__NAME
+      value: "authentik"
+    - name: AUTHENTIK_POSTGRESQL__USER
+      value: "authentik"
+
   envFrom:
     - secretRef:
-        name: "authentik-secrets"
+        name: "authentik-secret"

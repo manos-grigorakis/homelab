@@ -4,6 +4,6 @@ kind: Kustomization
 namespace: authentik
 
 resources:
-  - authentik-ns.yaml
-  - secret.sealed.yaml
+  - namespace.yaml
+  - vault-secrets.yaml
   - ingress-route.yaml
