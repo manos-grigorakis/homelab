@@ -119,17 +119,4 @@ csi:
   # With the driver and provider installed, you can mount Vault secrets into volumes
   # similar to the Vault Agent injector, and you can also sync those secrets into
   # Kubernetes secrets.
-  enabled: true
-
-  image:
-    repository: "hashicorp/vault-csi-provider"
-    tag: "1.7.3"
-    pullPolicy: IfNotPresent
-
-  resources:
-    requests:
-      cpu: 25m
-      memory: 64Mi
-    limits:
-      cpu: 100m
-      memory: 128Mi
+  enabled: false
