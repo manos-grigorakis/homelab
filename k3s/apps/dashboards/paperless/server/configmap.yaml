@@ -4,11 +4,15 @@ metadata:
   name: server-configmap
   namespace: paperless
 data:
+  # === Redis ===
   PAPERLESS_URL: "https://paperless.poolnode.net"
   PAPERLESS_REDIS: "redis://redis-service:6379"
+
+  # === PostgreSQL ===
   PAPERLESS_DBHOST: "postgres.databases"
   PAPERLESS_DBPORT: "5432"
   PAPERLESS_DBNAME: "paperless"
+  PAPERLESS_DBUSER: "paperless"
 
   # === SSO ===
   PAPERLESS_APPS: "allauth.socialaccount.providers.openid_connect"

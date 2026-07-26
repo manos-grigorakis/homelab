@@ -13,6 +13,7 @@ spec:
       labels:
         app: paperless-server
     spec:
+      serviceAccountName: paperless-service-account
       containers:
         - name: server
           image: "ghcr.io/paperless-ngx/paperless-ngx:2.20.3"
@@ -24,7 +25,7 @@ spec:
             - configMapRef:
                 name: server-configmap
             - secretRef:
-                name: server-secrets
+                name: server-secret
           volumeMounts:
             - name: data
               mountPath: /usr/src/paperless/data

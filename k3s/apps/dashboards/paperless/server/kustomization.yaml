@@ -7,8 +7,8 @@ resources:
   - data-pvc.yaml
   - media-pvc.yaml
 
+  - vault-secrets.yaml
   - configmap.yaml
-  - secret.sealed.yaml
   - service.yaml
 
   - deployment.yaml
