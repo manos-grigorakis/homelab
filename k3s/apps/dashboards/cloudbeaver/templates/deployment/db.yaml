@@ -32,8 +32,8 @@ spec:
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: cloudbeaver-db-password
-                  key: postgres-pass
+                  name: cloudbeaver-secret
+                  key: POSTGRES_PASSWORD
           ports:
             - containerPort: 5432
           resources: {}

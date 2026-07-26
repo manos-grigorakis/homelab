@@ -24,6 +24,7 @@ spec:
       #     runAsGroup: 1000
       #     fsGroup: 1000
       #     fsGroupChangePolicy: "Always"
+      serviceAccountName: cloudbeaver-service-account
       containers:
         - image: "{{ .Values.cloudbeaver.image }}:{{ .Values.cloudbeaver.imageTag | default .Chart.AppVersion }}"
           imagePullPolicy: "{{ .Values.cloudbeaver.pullPolicy }}"
@@ -53,8 +54,8 @@ spec:
             - name: CLOUDBEAVER_QM_DB_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: cloudbeaver-db-password
-                  key: postgres-pass
+                  name: cloudbeaver-secret
+                  key: POSTGRES_PASSWORD
           ports:
             - containerPort: 8978
           resources: {}

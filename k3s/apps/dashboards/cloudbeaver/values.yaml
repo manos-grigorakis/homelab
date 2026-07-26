@@ -8,8 +8,6 @@ cloudbeaver:
   image: dbeaver/cloudbeaver
   imageTag: "25.1.0"
   pullPolicy: IfNotPresent
-  # pullCredsName - name of a secret config map that contains docker repo auths
-  # pullCredsName: regcred
 
 # Ingress Values
 # Supported ingress controllers: nginx, haproxy
