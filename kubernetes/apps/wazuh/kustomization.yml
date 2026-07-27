@@ -56,3 +56,6 @@ resources:
 
   - ism-policies/configmap-policy.yaml
   - ism-policies/job-apply-retention-policy.yaml
+
+  - templates/configmap-template.yaml
+  - templates/job-apply-template.yaml

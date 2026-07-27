@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: wazuh-shard-override-template
+  namespace: wazuh
+data:
+  shard-override-template.json: |
+    {
+      "order": 1,
+      "index_patterns": ["wazuh-alerts-4.x-*", "wazuh-archives-4.x-*"],
+      "settings": {
+        "index.number_of_shards": "1",
+        "index.number_of_replicas": "0"
+      }
+    }

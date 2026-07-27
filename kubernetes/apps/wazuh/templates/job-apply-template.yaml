@@ -1,0 +1,53 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: apply-wazuh-shard-override-template
+  namespace: wazuh
+spec:
+  ttlSecondsAfterFinished: 3600
+  template:
+    spec:
+      initContainers:
+        - name: wait-for-indexer
+          image: curlimages/curl:8.10.1
+          command:
+            - sh
+            - -c
+            - |
+              echo "Waiting for indexer to be ready..."
+              until curl -sk -o /dev/null -w "%{http_code}" "https://indexer:9200" | grep -qE "200|401"; do
+                echo "Indexer not ready yet, retrying in 5s..."
+                sleep 5
+              done
+              echo "Indexer is ready."
+      containers:
+        - name: apply-template
+          image: curlimages/curl:8.10.1
+          command:
+            - sh
+            - -c
+            - |
+              curl -sk -u "$INDEXER_USERNAME:$INDEXER_PASSWORD" \
+                -X PUT "https://indexer:9200/_template/wazuh-shard-override" \
+                -H "Content-Type: application/json" \
+                -d @/config/shard-override-template.json
+          env:
+            - name: INDEXER_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: indexer-cred
+                  key: username
+            - name: INDEXER_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: indexer-cred
+                  key: password
+          volumeMounts:
+            - name: template-config
+              mountPath: /config
+      volumes:
+        - name: template-config
+          configMap:
+            name: wazuh-shard-override-template
+      restartPolicy: Never
+  backoffLimit: 2
