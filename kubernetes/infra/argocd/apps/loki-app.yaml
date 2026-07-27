@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: loki
+  namespace: argocd
+spec:
+  destination:
+    namespace: monitoring
+    server: https://kubernetes.default.svc
+  sources:
+    - repoURL: https://grafana.github.io/helm-charts
+      chart: loki
+      targetRevision: 6.49.0
+      helm:
+        valueFiles:
+          - $values/kubernetes/apps/monitoring/loki/values.yaml
+
+    - repoURL: https://github.com/manos-grigorakis/homelab.git
+      targetRevision: main
+      path: kubernetes/apps/monitoring/loki
+      ref: values
+  project: default
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true

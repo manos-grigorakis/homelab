@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: homarr
+  namespace: argocd
+spec:
+  destination:
+    namespace: homarr
+    server: https://kubernetes.default.svc
+  sources:
+    - repoURL: https://homarr-labs.github.io/charts/
+      chart: homarr
+      targetRevision: 5.11.0
+      helm:
+        valueFiles:
+          - $values/kubernetes/apps/homarr/values.yaml
+
+    - repoURL: https://github.com/manos-grigorakis/homelab.git
+      targetRevision: main
+      path: kubernetes/apps/homarr
+      ref: values
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

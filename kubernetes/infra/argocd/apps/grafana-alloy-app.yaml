@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: grafana-alloy
+  namespace: argocd
+spec:
+  destination:
+    namespace: monitoring
+    server: https://kubernetes.default.svc
+  sources:
+    - repoURL: https://grafana.github.io/helm-charts
+      chart: alloy
+      targetRevision: 1.5.2
+      helm:
+        valueFiles:
+          - $values/kubernetes/apps/monitoring/grafana-alloy/values.yaml
+
+    - repoURL: https://github.com/manos-grigorakis/homelab.git
+      targetRevision: main
+      path: kubernetes/apps/monitoring/grafana-alloy
+      ref: values
+  project: default
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
