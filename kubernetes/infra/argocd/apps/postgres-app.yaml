@@ -8,7 +8,7 @@ spec:
     namespace: databases
     server: https://kubernetes.default.svc
   source:
-    path: k3s/apps/databases/postgres
+    path: kubernetes/apps/databases/postgres
     repoURL: https://github.com/manos-grigorakis/homelab.git
     targetRevision: main
   sources: []

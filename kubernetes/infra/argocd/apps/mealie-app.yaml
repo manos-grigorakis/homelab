@@ -8,7 +8,7 @@ spec:
     namespace: mealie
     server: https://kubernetes.default.svc
   source:
-    path: k3s/apps/dashboards/mealie
+    path: kubernetes/apps/mealie
     repoURL: https://github.com/manos-grigorakis/homelab.git
     targetRevision: main
   sources: []

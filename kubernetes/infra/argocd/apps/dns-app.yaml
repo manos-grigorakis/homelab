@@ -8,7 +8,7 @@ spec:
     namespace: dns
     server: https://kubernetes.default.svc
   source:
-    path: k3s/apps/dns
+    path: kubernetes/apps/dns
     repoURL: https://github.com/manos-grigorakis/homelab.git
     targetRevision: main
   sources: []

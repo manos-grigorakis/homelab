@@ -8,7 +8,7 @@ spec:
     namespace: wazuh
     server: https://kubernetes.default.svc
   source:
-    path: k3s/apps/monitoring/wazuh
+    path: kubernetes/apps/wazuh
     repoURL: https://github.com/manos-grigorakis/homelab.git
     targetRevision: main
   sources: []

@@ -18,7 +18,7 @@ spec:
             enabled: true
     - repoURL: https://github.com/manos-grigorakis/homelab.git
       targetRevision: main
-      path: k3s/infra/cert-manager
+      path: kubernetes/infra/cert-manager
   project: default
   syncPolicy:
     automated:

@@ -13,11 +13,11 @@ spec:
       targetRevision: 5.11.0
       helm:
         valueFiles:
-          - $values/k3s/apps/dashboards/homarr/values.yaml
+          - $values/kubernetes/apps/homarr/values.yaml
 
     - repoURL: https://github.com/manos-grigorakis/homelab.git
       targetRevision: main
-      path: k3s/apps/dashboards/homarr
+      path: kubernetes/apps/homarr
       ref: values
   project: default
   syncPolicy:

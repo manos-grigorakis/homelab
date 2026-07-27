@@ -9,7 +9,7 @@ spec:
     server: https://kubernetes.default.svc
   source:
     repoURL: https://github.com/manos-grigorakis/homelab.git
-    path: k3s/apps/dashboards/paperless
+    path: kubernetes/apps/paperless
     targetRevision: main
   sources: []
   project: default

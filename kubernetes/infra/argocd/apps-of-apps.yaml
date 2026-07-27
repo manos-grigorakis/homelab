@@ -8,7 +8,7 @@ spec:
     namespace: argocd
     server: https://kubernetes.default.svc
   source:
-    path: k3s/infra/argocd/apps
+    path: kubernetes/infra/argocd/apps
     repoURL: https://github.com/manos-grigorakis/homelab.git
     targetRevision: main
     directory:

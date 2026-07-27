@@ -13,11 +13,11 @@ spec:
       targetRevision: 25.3.11
       helm:
         valueFiles:
-          - $values/k3s/apps/databases/redis/values.yaml
+          - $values/kubernetes/apps/databases/redis/values.yaml
 
     - repoURL: https://github.com/manos-grigorakis/homelab.git
       targetRevision: main
-      path: k3s/apps/databases/redis
+      path: kubernetes/apps/databases/redis
       ref: values
   project: default
   syncPolicy:

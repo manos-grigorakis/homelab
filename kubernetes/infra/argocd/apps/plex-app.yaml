@@ -10,7 +10,7 @@ spec:
     namespace: media
     server: https://kubernetes.default.svc
   source:
-    path: k3s/apps/media/plex
+    path: kubernetes/apps/media/plex
     repoURL: https://github.com/manos-grigorakis/homelab.git
     targetRevision: main
   sources: []

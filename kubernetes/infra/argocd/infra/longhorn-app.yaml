@@ -13,11 +13,11 @@ spec:
       targetRevision: v1.9.1
       helm:
         valueFiles:
-          - $values/k3s/infra/longhorn/values.yaml
+          - $values/kubernetes/infra/longhorn/values.yaml
 
     - repoURL: https://github.com/manos-grigorakis/homelab.git
       targetRevision: main
-      path: k3s/infra/longhorn
+      path: kubernetes/infra/longhorn
       ref: values
   project: default
   syncPolicy:

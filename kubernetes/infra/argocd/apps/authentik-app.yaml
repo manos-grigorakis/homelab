@@ -13,11 +13,11 @@ spec:
       targetRevision: 2026.2.2
       helm:
         valueFiles:
-          - $values/k3s/apps/auth/authentik/values.yaml
+          - $values/kubernetes/apps/authentik/values.yaml
 
     - repoURL: https://github.com/manos-grigorakis/homelab.git
       targetRevision: main
-      path: k3s/apps/auth/authentik
+      path: kubernetes/apps/authentik
       ref: values
   project: default
   syncPolicy:

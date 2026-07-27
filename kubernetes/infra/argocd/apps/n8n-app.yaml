@@ -13,11 +13,11 @@ spec:
       path: charts/n8n
       helm:
         valueFiles:
-          - $values/k3s/apps/automations/n8n/values.yaml
+          - $values/kubernetes/apps/n8n/values.yaml
 
     - repoURL: https://github.com/manos-grigorakis/homelab.git
       targetRevision: main
-      path: k3s/apps/automations/n8n
+      path: kubernetes/apps/n8n
       ref: values
   project: default
   syncPolicy:

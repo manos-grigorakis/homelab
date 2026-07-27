@@ -13,11 +13,11 @@ spec:
       targetRevision: 0.34.0
       helm:
         valueFiles:
-          - $values/k3s/infra/vault/values.yaml
+          - $values/kubernetes/infra/vault/values.yaml
 
     - repoURL: https://github.com/manos-grigorakis/homelab.git
       targetRevision: main
-      path: k3s/infra/vault
+      path: kubernetes/infra/vault
       ref: values
   project: default
   syncPolicy:

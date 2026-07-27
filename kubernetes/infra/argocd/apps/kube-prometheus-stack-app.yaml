@@ -13,11 +13,11 @@ spec:
       targetRevision: 85.3.3
       helm:
         valueFiles:
-          - $values/k3s/apps/monitoring/kube-prometheus-stack/values.yaml
+          - $values/kubernetes/apps/monitoring/kube-prometheus-stack/values.yaml
 
     - repoURL: https://github.com/manos-grigorakis/homelab.git
       targetRevision: main
-      path: k3s/apps/monitoring/kube-prometheus-stack/manifests
+      path: kubernetes/apps/monitoring/kube-prometheus-stack/manifests
       ref: values
   project: default
   syncPolicy:

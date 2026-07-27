@@ -13,11 +13,11 @@ spec:
       targetRevision: 1.5.2
       helm:
         valueFiles:
-          - $values/k3s/apps/monitoring/grafana-alloy/values.yaml
+          - $values/kubernetes/apps/monitoring/grafana-alloy/values.yaml
 
     - repoURL: https://github.com/manos-grigorakis/homelab.git
       targetRevision: main
-      path: k3s/apps/monitoring/grafana-alloy
+      path: kubernetes/apps/monitoring/grafana-alloy
       ref: values
   project: default
   syncPolicy:

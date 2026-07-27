@@ -10,7 +10,7 @@ spec:
   sources:
     - repoURL: https://github.com/manos-grigorakis/homelab.git
       targetRevision: main
-      path: k3s/infra/coredns
+      path: kubernetes/infra/coredns
   project: default
   syncPolicy:
     automated:

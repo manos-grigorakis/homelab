@@ -10,7 +10,7 @@ spec:
   sources:
     - repoURL: https://github.com/manos-grigorakis/homelab.git
       targetRevision: main
-      path: k3s/infra/traefik
+      path: kubernetes/infra/traefik
   project: default
   syncPolicy:
     automated:

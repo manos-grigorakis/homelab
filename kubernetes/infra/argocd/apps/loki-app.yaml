@@ -13,11 +13,11 @@ spec:
       targetRevision: 6.49.0
       helm:
         valueFiles:
-          - $values/k3s/apps/monitoring/loki/values.yaml
+          - $values/kubernetes/apps/monitoring/loki/values.yaml
 
     - repoURL: https://github.com/manos-grigorakis/homelab.git
       targetRevision: main
-      path: k3s/apps/monitoring/loki
+      path: kubernetes/apps/monitoring/loki
       ref: values
   project: default
   syncPolicy:
