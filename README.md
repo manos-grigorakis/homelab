@@ -49,7 +49,7 @@ homelab
 ├── .github                        # GitHub related
 ├── ansible                        # Host configuration (WIP)
 ├── Dockerfiles                    # Custom Docker images
-├── k3s
+├── kubernetes
 │   ├── apps                       # Cluster core applications grouped by domain
 │   └── infra                      # Cluster infrastructure
 ├── LICENSE
