@@ -1,4 +1,4 @@
-name: Yamllint GitHub Action
+name: YAML Lint
 
 on:
   workflow_dispatch:
@@ -15,11 +15,11 @@ jobs:
     name: Yamllint
     runs-on: ubuntu-latest
     steps:
-      - name: "Checkout"
+      - name: Checkout
         uses: actions/checkout@v6
 
-      - name: "Yamllint"
-        uses: karancode/yamllint-github-action@master
+      - name: Yamllint
+        uses: karancode/yamllint-github-action@v2.1.1
         with:
           yamllint_strict: false
           yamllint_comment: false
