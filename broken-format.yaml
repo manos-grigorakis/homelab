@@ -1,0 +1,7 @@
+services:
+  vaultwarden:
+      image: vaultwarden/server:1.35.4
+    container_name: vaultwarden
+    restart: unless-stopped
+    ports:
+      - "8000:80"
