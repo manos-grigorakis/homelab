@@ -37,13 +37,13 @@ spec:
               memory: "4Gi"
               cpu: "2"
           ports:
-            - name: http 
+            - name: http
               containerPort: 3003
               protocol: TCP
           volumeMounts:
-          - name: igpu-device
-            mountPath: /dev/dri
+            - name: igpu-device
+              mountPath: /dev/dri
       volumes:
-      - name: igpu-device
-        hostPath:
-          path: /dev/dri
+        - name: igpu-device
+          hostPath:
+            path: /dev/dri
