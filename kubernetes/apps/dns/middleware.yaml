@@ -4,7 +4,7 @@ metadata:
   name: pihole-redirect-root
   namespace: dns
 spec:
-   redirectRegex:
+  redirectRegex:
     regex: "^https?://pihole\\.poolnode\\.net/?$"
     replacement: "https://pihole.poolnode.net/admin/"
     permanent: true
