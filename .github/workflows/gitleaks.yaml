@@ -5,7 +5,7 @@ on:
   push:
   workflow_dispatch:
   schedule:
-    - cron: "0 4 * * *" # run once a day at 4 AM
+    - cron: "0 4 * * *" # run once a day at 4 AM (UTC)
 
 permissions:
   contents: read
@@ -22,3 +22,4 @@ jobs:
       - uses: gitleaks/gitleaks-action@v3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLEAKS_VERSION: "8.30.1"
