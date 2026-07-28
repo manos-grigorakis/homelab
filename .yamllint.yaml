@@ -14,7 +14,7 @@ rules:
     max: 150
     level: warning
   truthy:
-    allowed-values: ["true", "false"]
+    allowed-values: ["true", "false", "yes", "no"]
     check-keys: false
   comments-indentation: disable
   comments:
