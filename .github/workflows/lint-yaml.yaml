@@ -1,0 +1,27 @@
+name: YAML Lint
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "**/*.yaml"
+      - "**/*.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  yamllint:
+    name: Yamllint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Yamllint
+        uses: karancode/yamllint-github-action@v2.1.1
+        with:
+          yamllint_strict: false
+          yamllint_comment: false
+        env:
+          GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -7,6 +7,6 @@ spec:
   cron: "0 2 * * 0" # Every Sunday at 2:00 UTC
   task: "backup"
   groups:
-  - wazuh
+    - wazuh
   retain: 2
   concurrency: 1

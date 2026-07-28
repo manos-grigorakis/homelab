@@ -1,9 +1,9 @@
-name: gitleaks
+name: Gitleaks
 
 on:
-  pull_request:
   push:
   workflow_dispatch:
+  pull_request:
   schedule:
     - cron: "0 4 * * *" # run once a day at 4 AM (UTC)
 
@@ -12,14 +12,16 @@ permissions:
 
 jobs:
   scan:
-    name: gitleaks
+    name: Gitleaks
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - name: Checkout
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
-      - uses: gitleaks/gitleaks-action@v3
+      - name: Gitleaks
+        uses: gitleaks/gitleaks-action@v3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITLEAKS_VERSION: "8.30.1"

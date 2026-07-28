@@ -7,6 +7,6 @@ spec:
   cron: "0 4 * * *" # Every day at 4:00
   task: "backup"
   groups:
-  - default
+    - default
   retain: 7
   concurrency: 1
