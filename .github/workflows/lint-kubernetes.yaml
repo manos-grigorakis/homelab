@@ -1,0 +1,60 @@
+name: Kubernetes Lint
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "kubernetes/**"
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  kube-linter:
+    name: Kube-linter
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@v6
+
+      - name: Scan repo with kube-linter
+        uses: stackrox/kube-linter-action@v1.0.4
+        with:
+          directory: kubernetes
+          format: sarif
+          output-file: kube-linter.sarif
+
+      - name: Upload SARIF report
+        uses: github/codeql-action/upload-sarif@v4
+        with:
+          sarif_file: kube-linter.sarif
+
+  kubeconform:
+    name: Kubeconform
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@v6
+
+      - name: Set up Kubeconform
+        uses: bmuschko/setup-kubeconform@v1
+        with:
+          kubeconform-version: "0.8.0"
+
+      - name: Run Kubeconform
+        run: |
+          kubeconform \
+            -summary \
+            -ignore-missing-schemas \
+            -skip Secret \
+            -schema-location default \
+            -schema-location 'https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/{{.Group}}/{{.ResourceKind}}_{{.ResourceAPIVersion}}.json' \
+            -ignore-filename-pattern '.*values\.ya?ml$' \
+            -ignore-filename-pattern '.*Chart\.ya?ml$' \
+            -ignore-filename-pattern '.*/templates/.*' \
+            -ignore-filename-pattern '.*opensearch.*\.ya?ml$' \
+            -ignore-filename-pattern '.*/grafana/dashboards/.*' \
+            -ignore-filename-pattern '.*/grafana/datasources/.*' \
+            kubernetes/
+        shell: bash
