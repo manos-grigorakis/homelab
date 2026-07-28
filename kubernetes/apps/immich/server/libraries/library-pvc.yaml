@@ -4,7 +4,7 @@ metadata:
   name: immich-library-nfs-pvc
   namespace: immich
   labels:
-    app: immich-server 
+    app: immich-server
 spec:
   storageClassName: ""
   accessModes:

@@ -29,5 +29,5 @@ spec:
             service:
               name: cloudbeaver
               port:
-                number: 8978        
+                number: 8978
 {{ end }}

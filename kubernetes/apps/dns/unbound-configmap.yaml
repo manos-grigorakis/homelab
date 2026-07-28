@@ -23,14 +23,14 @@ data:
       auto-trust-anchor-file: "/var/lib/unbound/root.key"
       harden-glue: yes
       harden-dnssec-stripped: yes
-      
+
       # Perfomance & Security
       use-caps-for-id: yes
       edns-buffer-size: 1232
       prefetch: yes
       num-threads: 2
       cache-min-ttl: 3600   # 1 hour
-      cache-max-ttl: 86400  # 1 day  
+      cache-max-ttl: 86400  # 1 day
       rrset-roundrobin: yes
 
       # Privacy & Logging
