@@ -14,8 +14,8 @@ useDefault = true
 # If a commit listed in the `commits` field below is encountered then that commit will be skipped and no
 # secrets will be detected for said commit. The same logic applies for regexes and paths.
 [[allowlists]]
-description = "Ignore example env files"
-paths = [ '''.*\.env\.example$''']
+description = "Ignore example files"
+paths = [ '''.*\.env\.example$''', '''.*\.ya?ml\.example$''']
 
 [[allowlists]]
 description = "Ignore Bitnami SealedSecrets"
