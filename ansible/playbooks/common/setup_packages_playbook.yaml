@@ -1,5 +1,5 @@
 - name: Install Basic Packages
-  hosts: "{{ target | default('k3s_api') }}"
+  hosts: "{{ target | default('all') }}"
   become: true
 
   tasks:

@@ -1,5 +1,5 @@
 - name: Create User & Setup SSH and Groups for "{{ linux_user }}"
-  hosts: ubuntu_containers
+  hosts: "{{ target | default('type_qemu') }}"
   become: true
   become_user: root
   vars:

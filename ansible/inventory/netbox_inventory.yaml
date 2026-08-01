@@ -1,0 +1,27 @@
+plugin: netbox.netbox.nb_inventory
+api_endpoint: https://netbox.poolnode.net
+token:
+  type: Bearer
+  value: <token-here>
+validate_certs: true
+config_context: false
+
+# Replaces `-` with `_` in groups
+keyed_groups:
+  - key: device_roles | map('regex_replace', '-', '_') | list
+    prefix: device_roles
+    separator: "_"
+  - key: tags | map('regex_replace', '-', '_') | list
+    prefix: tags
+    separator: "_"
+  - key: custom_fields.proxmox_vm_type
+    prefix: type
+    separator: "_"
+
+device_query_filters:
+  - has_primary_ip: "true"
+  - tag__n: "no-ansible" # Exclude Devices
+vm_query_filters:
+  - has_primary_ip: "true"
+  - status: "active" # Shows only online VMs
+  - tag__n: "no-ansible" # Exclude VMs
