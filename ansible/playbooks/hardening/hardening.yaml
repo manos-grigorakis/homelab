@@ -1,5 +1,5 @@
 - name: System Hardening
-  hosts: hardening-test-vm
+  hosts: "{{ target | default('all') }}"
   become: true
 
   handlers:

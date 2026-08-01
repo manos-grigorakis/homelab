@@ -1,5 +1,5 @@
 - name: Install Docker
-  hosts: "{{ target | default('k3s_api') }}"
+  hosts: "{{ target | default('type_lxc') }}"
 
   tasks:
     - name: Update Packages

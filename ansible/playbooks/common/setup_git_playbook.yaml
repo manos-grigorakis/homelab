@@ -1,5 +1,5 @@
 - name: Setup Git
-  hosts: "{{ target | default('k3s_api') }}"
+  hosts: "{{ target | default('all') }}"
   vars:
     git_username: manos
     git_email: manos.grigorakis03@gmail.com

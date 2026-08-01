@@ -1,5 +1,5 @@
 - name: Setup K3s Main Server
-  hosts: k3s_main_server
+  hosts: "{{ target | default('tags_master') }}"
 
   tasks:
     - name: Download K3s Install Script
