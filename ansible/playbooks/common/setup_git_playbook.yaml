@@ -72,11 +72,11 @@
         scope: global
 
     - name: Verify Git Setup
-      ansible.builtin.command:
-        cmd: git config --list
+      community.general.git_config:
+        list_all: true
+        scope: global
       register: verify_git
-      changed_when: false
 
     - name: Print Git Setup Verification
       ansible.builtin.debug:
-        var: verify_git.stdout_lines
+        var: verify_git.config_values
