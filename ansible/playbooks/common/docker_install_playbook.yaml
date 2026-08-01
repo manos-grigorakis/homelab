@@ -79,6 +79,7 @@
         docker --version
         docker compose version
       register: docker_verification
+      changed_when: false
 
     - name: Print Docker Verification
       ansible.builtin.debug:
