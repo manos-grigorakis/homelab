@@ -39,30 +39,43 @@
         scope: global
 
     - name: Enable Git SSH Signing
-      ansible.builtin.command:
-        cmd: git config --global gpg.format ssh
+      community.general.git_config:
+        name: gpg.format
+        value: "ssh"
+        scope: global
 
     - name: Copy All Public SSH Keys to Remote
       ansible.builtin.copy:
         src: ../../public_ssh_keys/{{ item }}
         dest: ~/.ssh/
+        mode: "0644"
       loop:
         - id_ed25519_github_mac.pub
         - id_ed25519_github_windows.pub
 
     - name: Set the Default Public Key as Signing Key
-      ansible.builtin.shell:
-        cmd: git config --global user.signingkey "$(cat ~/.ssh/id_ed25519_github_windows.pub)"
+      ansible.builtin.command:
+        cmd: cat ~/.ssh/id_ed25519_github_windows.pub
+      register: signing_key
+      changed_when: false
+
+    - name: Configure Git Signing Key
+      community.general.git_config:
+        name: user.signingkey
+        value: "{{ signing_key.stdout }}"
+        scope: global
 
     - name: Enable Global Signing Commit
-      ansible.builtin.command:
-        cmd: git config --global commit.gpgsign true
+      community.general.git_config:
+        name: commit.gpgsign
+        value: "true"
+        scope: global
 
     - name: Verify Git Setup
-      ansible.builtin.command:
-        cmd: git config --list
+      community.general.git_config_info:
+        scope: global
       register: verify_git
 
     - name: Print Git Setup Verification
       ansible.builtin.debug:
-        var: verify_git.stdout_lines
+        var: verify_git.config_values

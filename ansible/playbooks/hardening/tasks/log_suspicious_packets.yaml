@@ -1,12 +1,11 @@
 - name: Add sysctl hardening config
   ansible.builtin.blockinfile:
     path: /etc/sysctl.d/99-hardening.conf
-    create: yes
+    create: true
+    mode: "0644"
     block: |
       # Enable Suspicious Packets Logging
       net.ipv4.conf.default.log_martians = 1
       net.ipv4.conf.all.log_martians = 1
       net.ipv4.route.flush = 1
-
-- name: Reload sysctl
-  ansible.builtin.command: sysctl --system
+  notify: Reload sysctl

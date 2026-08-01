@@ -2,12 +2,19 @@
   hosts: k3s_main_server
 
   tasks:
-    - name: Install K3s with Curl
-      ansible.builtin.shell:
-        cmd: curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="server" sh -
+    - name: Download K3s Install Script
+      ansible.builtin.get_url:
+        url: https://get.k3s.io
+        dest: /tmp/k3s-install.sh
+        mode: "0755"
+
+    - name: Install K3s
+      ansible.builtin.command: /tmp/k3s-install.sh
+      args:
         creates: /usr/local/bin/k3s # Check if K3s is already present in the machine
       become: true
       environment:
+        INSTALL_K3S_EXEC: "server"
         K3S_TOKEN: "{{ k3s_cluster_token }}"
 
     - name: Wait for K3s Status
@@ -16,10 +23,11 @@
         seconds: 30
 
     - name: Verify K3s Installation
-      ansible.builtin.shell:
+      ansible.builtin.command:
         cmd: kubectl get nodes
-      register: k3s_nodes # Store output in a variable
+      register: k3s_nodes
       become: true
+      changed_when: false
 
     - name: Print K3s Nodes
       ansible.builtin.debug:

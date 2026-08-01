@@ -23,4 +23,4 @@
 
 - name: Autoremove unused packages
   ansible.builtin.apt:
-    autoremove: yes
+    autoremove: true

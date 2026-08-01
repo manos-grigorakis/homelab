@@ -2,14 +2,42 @@
   hosts: hardening-test-vm
   become: true
 
+  handlers:
+    - name: Reload sysctl
+      ansible.builtin.command: sysctl --system
+      changed_when: true
+
+    - name: Update grub
+      ansible.builtin.command: update-grub
+      changed_when: true
+
   tasks:
-    - import_tasks: tasks/packages.yaml
-    - import_tasks: tasks/daemons.yaml
-    - import_tasks: tasks/kernel_modules.yaml
-    - import_tasks: tasks/sudo.yaml
-    - import_tasks: tasks/journald_log_rotation.yaml
-    - import_tasks: tasks/log_suspicious_packets.yaml
-    - import_tasks: tasks/bootloader.yaml
-    - import_tasks: tasks/audit_logging_rules.yaml
-    - import_tasks: tasks/shell-tmout.yaml
-    - import_tasks: tasks/ssh-config.yaml
+    - name: Import Package Hardening Tasks
+      ansible.builtin.import_tasks: tasks/packages.yaml
+
+    - name: Import Daemon Hardening Tasks
+      ansible.builtin.import_tasks: tasks/daemons.yaml
+
+    - name: Import Kernel Module Hardening Tasks
+      ansible.builtin.import_tasks: tasks/kernel_modules.yaml
+
+    - name: Import Sudo Hardening Tasks
+      ansible.builtin.import_tasks: tasks/sudo.yaml
+
+    - name: Import Journald Log Rotation Tasks
+      ansible.builtin.import_tasks: tasks/journald_log_rotation.yaml
+
+    - name: Import Suspicious Packet Logging Tasks
+      ansible.builtin.import_tasks: tasks/log_suspicious_packets.yaml
+
+    - name: Import Bootloader Hardening Tasks
+      ansible.builtin.import_tasks: tasks/bootloader.yaml
+
+    - name: Import Audit Logging Rules Tasks
+      ansible.builtin.import_tasks: tasks/audit_logging_rules.yaml
+
+    - name: Import Shell Timeout Tasks
+      ansible.builtin.import_tasks: tasks/shell-tmout.yaml
+
+    - name: Import SSH Config Hardening Tasks
+      ansible.builtin.import_tasks: tasks/ssh-config.yaml
