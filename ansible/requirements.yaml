@@ -1,2 +1,4 @@
 collections:
   - name: community.general
+  - name: netbox.netbox
+    version: ">=3.16.0"
