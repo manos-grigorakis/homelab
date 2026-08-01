@@ -20,5 +20,6 @@ jobs:
       - name: Run ansible-lint
         uses: ansible/ansible-lint@v26.6.0
         with:
+          args: "-v"
           working_directory: "ansible"
           requirements_file: "requirements.yaml"
