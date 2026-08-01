@@ -2,19 +2,25 @@
   ansible.builtin.blockinfile:
     path: /etc/audit/rules.d/50-login.rules
     create: true
+    mode: "0640"
     block: |
       # Enable Logging of Login and Logout Events
       -w /var/log/lastlog -p wa -k logins
       -w /var/run/faillock -p wa -k logins
+  register: login_rules
 
 - name: Enable Logging to administrator scope
   ansible.builtin.blockinfile:
     path: /etc/audit/rules.d/50-scope.rules
     create: true
+    mode: "0640"
     block: |
       # Enable Logging to administrator scope
       -w /etc/sudoers -p wa -k scope
       -w /etc/sudoers.d -p wa -k scope
+  register: scope_rules
 
 - name: Merge Rules
   ansible.builtin.command: augenrules --load
+  when: login_rules.changed or scope_rules.changed
+  changed_when: true
