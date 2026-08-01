@@ -1,4 +1,4 @@
-- name: Create User "{{ linux_user }}" & Setup SSH and Groups
+- name: Create User & Setup SSH and Groups for "{{ linux_user }}"
   hosts: ubuntu_containers
   become: true
   become_user: root
@@ -6,7 +6,7 @@
     linux_user: manos
 
   tasks:
-    - name: Create group "{{ linux_user }}" for User "{{ linux_user }}"
+    - name: Create group for User "{{ linux_user }}"
       ansible.builtin.group:
         name: "{{ linux_user }}"
 
@@ -15,17 +15,17 @@
         name: docker
         system: true
 
-    - name: Create User "{{ linux_user }}" with a Home Directory and sudo Privileges
+    - name: Create User with a Home Directory and sudo Privileges for "{{ linux_user }}"
       ansible.builtin.user:
         name: "{{ linux_user }}"
-        create_home: yes
+        create_home: true
         group: "{{ linux_user }}"
         groups:
           - sudo
           - docker
         shell: /bin/bash
         password: "{{ hashed_password }}"
-        append: yes
+        append: true
 
     - name: Create SSH Directory for User "{{ linux_user }}"
       ansible.builtin.file:
@@ -59,8 +59,10 @@
     - name: Verify User "{{ linux_user }}"
       ansible.builtin.command:
         cmd: id
+      become: true
       become_user: "{{ linux_user }}"
       register: user_verifycation
+      changed_when: false
 
     - name: Print User Verifycation
       ansible.builtin.debug:
