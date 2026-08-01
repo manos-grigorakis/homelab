@@ -1,5 +1,5 @@
 - name: Clone GitHub Repository
-  hosts: "{{ target }}"
+  hosts: "{{ target | default('k3s_api') }}"
 
   tasks:
     - name: Clone GitHub Repository
