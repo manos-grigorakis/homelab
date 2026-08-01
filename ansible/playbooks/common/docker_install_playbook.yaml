@@ -7,11 +7,10 @@
         update_cache: true
       become: true
 
-    - name: Install Ca-Certificates & Curl
+    - name: Install Ca-Certificates
       ansible.builtin.apt:
         name:
           - ca-certificates
-          - curl
       become: true
 
     - name: Create Directory for Docker GPG Key
@@ -21,14 +20,6 @@
         mode: "0755"
       become: true
 
-    # OLD
-    - name: Add Docker GPG Key
-      ansible.builtin.shell:
-        cmd: curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
-        creates: /etc/apt/keyrings/docker.asc
-      become: true
-
-    # New
     - name: Add Docker GPG Key
       ansible.builtin.get_url:
         url: https://download.docker.com/linux/ubuntu/gpg
