@@ -1,14 +1,24 @@
-> Execute commands from `/ansible` directory
+# Ansible
 
-## Verify Inventory & SSH Connectivity
+> Note: Execute commands from `/ansible` directory
 
-- ### Verify Whole Inventory
+## Inventory
+
+### List Inventory
+
+```bash
+ansible-inventory -i inventory/<file_name_inventory.yaml> --graph
+```
+
+### Verify Inventory & SSH Connectivity
+
+- Verify Whole Inventory
 
   ```bash
   ansible -i inventory/<file_name_inventory.yaml> all -m ping
   ```
 
-- ### Verify Specific Host
+- Verify Specific Host
 
   ```bash
   ansible -i inventory/<file_name_inventory.yaml> <host-name> -m ping
@@ -36,7 +46,7 @@
 - ### Run Playbook Using `target` Variable
 
   Playbook must have:
-  - Variable with fallback: `hosts: "{{ target | default('<fallback_group_name') }}"`
+  - Variable with fallback: `hosts: "{{ target | default('<fallback_group_name>') }}"`
 
   ```bash
   ansible-playbook -i inventory/<file_name_inventory.yaml> \
@@ -49,3 +59,32 @@
   ansible-playbook -i inventory/<file_name_inventory.yaml> \
   playbooks/<file_name_playbook.yaml> --limit <host-name>
   ```
+
+## NetBox (v4.6.5 Docker)
+
+### Token
+
+Write enabled = False
+
+### Permissions
+
+Read-only
+
+| App            | Object Type         |
+| -------------- | ------------------- |
+| DCIM           | Manufacturer        |
+| DCIM           | Device Role         |
+| DCIM           | Platform            |
+| DCIM           | Device              |
+| DCIM           | Device Type         |
+| DCIM           | Rack                |
+| DCIM           | Region              |
+| DCIM           | Site Group          |
+| DCIM           | Site                |
+| DCIM           | Location            |
+| Extras         | Tag                 |
+| IPAM           | IP Address          |
+| IPAM           | Application Service |
+| Tenancy        | Tenant              |
+| Virtualization | Cluster             |
+| Virtualization | Virtual Machine     |
