@@ -15,15 +15,25 @@
       become: true
 
     - name: Create Directory for Docker GPG Key
-      ansible.builtin.shell:
-        cmd: install -m 0755 -d /etc/apt/keyrings
-        creates: /etc/apt/keyrings
+      ansible.builtin.file:
+        path: /etc/apt/keyrings
+        state: directory
+        mode: "0755"
       become: true
 
+    # OLD
     - name: Add Docker GPG Key
       ansible.builtin.shell:
         cmd: curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
         creates: /etc/apt/keyrings/docker.asc
+      become: true
+
+    # New
+    - name: Add Docker GPG Key
+      ansible.builtin.get_url:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        dest: /etc/apt/keyrings/docker.asc
+        mode: "0644"
       become: true
 
     - name: Set Permissions for `docker.asc`
