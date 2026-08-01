@@ -1,6 +1,20 @@
 apiVersion: longhorn.io/v1beta2
 kind: RecurringJob
 metadata:
+  name: daily-backup-job
+  namespace: longhorn-system
+spec:
+  cron: "0 4 * * *" # Every day at 4:00 UTC
+  task: "backup"
+  groups:
+    - default
+  retain: 7
+  concurrency: 1
+
+---
+apiVersion: longhorn.io/v1beta2
+kind: RecurringJob
+metadata:
   name: wazuh-weekly-backup-job
   namespace: longhorn-system
 spec:
