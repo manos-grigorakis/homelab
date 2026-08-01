@@ -133,3 +133,14 @@ schedules:
         - longhorn-system
         - velero
         - metallb-system
+        - wazuh
+
+  wazuh-weekly-backup:
+    disabled: false
+    schedule: "0 2 * * 0" # Every Sunday at 2:00 UTC
+    template:
+      ttl: "336h" # 14 Days retain
+      storageLocation: default
+      snapshotMoveData: false
+      includedNamespaces:
+        - "wazuh"
