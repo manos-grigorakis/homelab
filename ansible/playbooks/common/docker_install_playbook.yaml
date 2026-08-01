@@ -27,19 +27,16 @@
         mode: "0644"
       become: true
 
-    - name: Set Permissions for `docker.asc`
-      ansible.builtin.shell:
-        cmd: chmod a+r /etc/apt/keyrings/docker.asc
-      become: true
-
     - name: Add the repository to Apt sources
       ansible.builtin.shell: |
+        set -o pipefail
         echo \
         "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
         $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | \
         tee /etc/apt/sources.list.d/docker.list > /dev/null
       args:
         creates: /etc/apt/sources.list.d/docker.list
+        executable: /bin/bash
       become: true
 
     - name: Update Packages
@@ -89,12 +86,14 @@
 
     - name: Pull & Run Docker Test Image
       ansible.builtin.command:
-        cmd: docker run hello-world
+        cmd: docker run --rm hello-world
+      changed_when: true
 
     - name: Verify Running Test Image
       ansible.builtin.command:
         cmd: docker images
       register: docker_test_image
+      changed_when: false
 
     - name: Print Docker Test Image Verification
       ansible.builtin.debug:
@@ -103,3 +102,4 @@
     - name: Remove Docker Test Image
       ansible.builtin.command:
         cmd: docker rmi hello-world -f
+      changed_when: true
