@@ -72,8 +72,7 @@
         scope: global
 
     - name: Verify Git Setup
-      community.general.git_config:
-        list_all: true
+      community.general.git_config_info:
         scope: global
       register: verify_git
 
