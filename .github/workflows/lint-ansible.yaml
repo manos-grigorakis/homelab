@@ -21,4 +21,4 @@ jobs:
         uses: ansible/ansible-lint@v26.6.0
         with:
           working_directory: "ansible"
-          requirements_file: "ansible/requirements.yaml"
+          requirements_file: "requirements.yaml"
