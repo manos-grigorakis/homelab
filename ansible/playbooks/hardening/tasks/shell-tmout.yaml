@@ -15,6 +15,6 @@
 - name: Create hardening.sh for TMOUT
   ansible.builtin.blockinfile:
     path: /etc/profile.d/hardening.sh
-    create: yes
+    create: true
     mode: "644"
     block: readonly TMOUT=900 ; export TMOUT

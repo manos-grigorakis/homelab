@@ -1,7 +1,7 @@
 - name: Disable Unused Kernel Modules
   ansible.builtin.blockinfile:
     path: /etc/modprobe.d/hardening.conf
-    create: yes
+    create: true
     prepend_newline: true
     owner: root
     group: root
@@ -17,7 +17,7 @@
 - name: Blacklist Unused Kernel Modules
   ansible.builtin.blockinfile:
     path: /etc/modprobe.d/hardening-blacklist.conf
-    create: yes
+    create: true
     prepend_newline: true
     owner: root
     group: root

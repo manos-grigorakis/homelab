@@ -1,7 +1,7 @@
 - name: Enable logging of login and logout events
   ansible.builtin.blockinfile:
     path: /etc/audit/rules.d/50-login.rules
-    create: yes
+    create: true
     block: |
       # Enable Logging of Login and Logout Events
       -w /var/log/lastlog -p wa -k logins
@@ -10,7 +10,7 @@
 - name: Enable Logging to administrator scope
   ansible.builtin.blockinfile:
     path: /etc/audit/rules.d/50-scope.rules
-    create: yes
+    create: true
     block: |
       # Enable Logging to administrator scope
       -w /etc/sudoers -p wa -k scope
