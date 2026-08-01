@@ -17,9 +17,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
+      - name: Install collections
+        run: ansible-galaxy collection install -r ansible/requirements.yaml --force -vvv
+
       - name: Run ansible-lint
         uses: ansible/ansible-lint@v26.6.0
         with:
-          args: "-v"
           working_directory: "ansible"
-          requirements_file: "requirements.yaml"
