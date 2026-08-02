@@ -2,6 +2,41 @@
 
 > Note: Execute commands from `/ansible` directory
 
+## Setup
+
+1. Create Python virtual environment
+
+   ```bash
+   python -m venv .venv
+   ```
+
+2. Activate virtual environment
+
+   ```bash
+   source .venv/bin/activate
+   ```
+
+3. Install dependencies
+
+   ```bash
+   python install -r requirements-lock.txt
+   ```
+
+4. Install Ansible collections
+
+   ```bash
+   ansible-galaxy collection install -r requirements.yml
+   ```
+
+## HashiCorp Vault
+
+Configure `ansible.cfg` for Vault URL and authentication method. Then export variables to shell.
+
+```bash
+export ANSIBLE_HASHI_VAULT_ROLE_ID="<role_id>"
+export ANSIBLE_HASHI_VAULT_SECRET_ID="<secret_id>"
+```
+
 ## Inventory
 
 ### List Inventory
