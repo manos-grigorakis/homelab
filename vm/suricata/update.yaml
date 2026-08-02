@@ -1,0 +1,4 @@
+# /etc/suricata/update.yaml
+
+enable-sources:
+  - et/open

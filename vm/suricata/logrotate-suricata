@@ -1,0 +1,13 @@
+# /etc/logrotate.d/suricata
+
+/mnt/suricata-logs/eve.json {
+    daily
+    rotate 30
+    compress
+    delaycompress
+    missingok
+    notifempty
+    postrotate
+        systemctl kill -s HUP suricata
+    endscript
+}
