@@ -1,4 +1,22 @@
+# ====================
+# HashiCorp Vault
+# ====================
+
+variable "vault_role_id" {
+  description = "Vault role ID for authentication"
+  type        = string
+  sensitive   = true
+}
+
+variable "vault_secret_id" {
+  description = "Vault secret ID for authentication"
+  type        = string
+  sensitive   = true
+}
+
+# ====================
 # Proxmox Provider
+# ====================
 variable "pve_endpoint" {
   type        = string
   description = "Proxmox Endpoint."
@@ -8,13 +26,6 @@ variable "pve_endpoint" {
 variable "pve_token_id" {
   type        = string
   description = "Proxmox API Token Id."
-  nullable    = false
-}
-
-variable "pve_api_token" {
-  type        = string
-  description = "Proxmox API Token Value."
-  sensitive   = true
   nullable    = false
 }
 
@@ -31,14 +42,20 @@ variable "pve_ssh_key_private" {
   description = "Path to Private SSH Key from Machine Terraform is being executed. (e.g. your Desktop)"
 }
 
+# ====================
 # Common
+# ====================
+
 variable "pve_node_name" {
   type        = string
   description = "Name of Proxmox Node."
   nullable    = false
 }
 
-## VM
+# ====================
+# Virtual Machines
+# ====================
+
 # Network
 variable "gateway" {
   type        = string
@@ -65,12 +82,5 @@ variable "vm_user" {
   type        = string
   description = "User for VM"
   default     = "manos"
-  nullable    = false
-}
-
-variable "vm_password_hashed" {
-  type        = string
-  description = "Hashed Password for VM Ubuntu"
-  sensitive   = true
   nullable    = false
 }
