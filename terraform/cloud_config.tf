@@ -6,6 +6,11 @@ data "local_file" "ssh_public_keys" {
   filename = "./ssh_keys.pub"
 }
 
+data "vault_kv_secret_v2" "linux_user" {
+  mount = "secret"
+  name  = "shared/linux_user"
+}
+
 resource "proxmox_virtual_environment_file" "user_data_cloud_config" {
   for_each = local.vms_group
 
@@ -32,7 +37,7 @@ resource "proxmox_virtual_environment_file" "user_data_cloud_config" {
           - ${key}
 %{endfor~}
         sudo: ALL=(ALL) ALL
-        passwd: ${var.vm_password_hashed}
+        passwd: ${data.vault_kv_secret_v2.linux_user.data["HASHED_PASSWORD"]}
         lock_passwd: false
     package_update: true
     packages:
