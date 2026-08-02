@@ -1,3 +1,8 @@
+# ====================
+# **IMPORTANT**
+# Only non-sensitive data, everything else to HashiCorp Vault
+# ====================
+
 # Proxmox Provider
 pve_endpoint = "https://192.168.10.20:8006"
 pve_token_id = "terraform@pve!terraform"
