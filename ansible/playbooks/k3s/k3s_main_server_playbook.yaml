@@ -1,5 +1,7 @@
 - name: Setup K3s Main Server
   hosts: "{{ target | default('tags_master') }}"
+  vars_files:
+    - ../../inventory/group_vars/k3s_cluster.yaml
 
   tasks:
     - name: Download K3s Install Script
@@ -15,7 +17,8 @@
       become: true
       environment:
         INSTALL_K3S_EXEC: "server"
-        K3S_TOKEN: "{{ k3s_cluster_token }}"
+        K3S_TOKEN: "{{ cluster_token }}"
+      no_log: true
 
     - name: Wait for K3s Status
       ansible.builtin.pause:

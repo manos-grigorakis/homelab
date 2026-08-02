@@ -2,7 +2,7 @@ plugin: netbox.netbox.nb_inventory
 api_endpoint: https://netbox.poolnode.net
 token:
   type: Bearer
-  value: "{{ lookup('community.hashi_vault.hashi_vault', 'secret/data/ansible/netbox:TOKEN') }}"
+  value: "{{ lookup('community.hashi_vault.vault_kv2_get', 'ansible/netbox', engine_mount_point='secret').secret.TOKEN }}"
 validate_certs: true
 config_context: false
 

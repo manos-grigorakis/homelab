@@ -2,6 +2,8 @@
   hosts: "{{ target | default('type_qemu') }}"
   become: true
   become_user: root
+  vars_files:
+    - ../../inventory/group_vars/linux_user.yaml
   vars:
     linux_user: manos
 
@@ -61,9 +63,9 @@
         cmd: id
       become: true
       become_user: "{{ linux_user }}"
-      register: user_verifycation
+      register: user_verification
       changed_when: false
 
-    - name: Print User Verifycation
+    - name: Print User Verification
       ansible.builtin.debug:
-        var: user_verifycation.stdout
+        var: user_verification.stdout
