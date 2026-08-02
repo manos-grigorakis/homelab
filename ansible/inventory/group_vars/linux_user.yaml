@@ -1,2 +1,4 @@
+linux_user: manos
+
 # Generate hashed password with `openssl passwd -6`
 hashed_password: "{{ lookup('community.hashi_vault.vault_kv2_get', 'shared/linux_user', engine_mount_point='secret').secret.HASHED_PASSWORD }}"
