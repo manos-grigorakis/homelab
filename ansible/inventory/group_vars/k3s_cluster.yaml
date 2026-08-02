@@ -1,0 +1,2 @@
+# Generate with: openssl rand -base64 64
+cluster_token: "{{ lookup('community.hashi_vault.vault_kv2_get', 'ansible/k3s', engine_mount_point='secret').secret.CLUSTER_TOKEN }}"

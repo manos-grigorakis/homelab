@@ -2,8 +2,8 @@
   hosts: "{{ target | default('type_qemu') }}"
   become: true
   become_user: root
-  vars:
-    linux_user: manos
+  vars_files:
+    - ../../inventory/group_vars/linux_user.yaml
 
   tasks:
     - name: Create group for User "{{ linux_user }}"
@@ -29,9 +29,9 @@
 
     - name: Create SSH Directory for User "{{ linux_user }}"
       ansible.builtin.file:
-        path: /home/manos/.ssh
+        path: "/home/{{ linux_user }}/.ssh"
         state: directory
-        owner: manos
+        owner: "{{ linux_user }}"
         group: sudo
         mode: "700"
 
@@ -39,8 +39,8 @@
       ansible.builtin.copy:
         remote_src: true
         src: ~/.ssh/authorized_keys
-        dest: /home/manos/.ssh/
-        owner: manos
+        dest: "/home/{{ linux_user }}/.ssh/"
+        owner: "{{ linux_user }}"
         group: sudo
         mode: "600"
 
@@ -61,9 +61,9 @@
         cmd: id
       become: true
       become_user: "{{ linux_user }}"
-      register: user_verifycation
+      register: user_verification
       changed_when: false
 
-    - name: Print User Verifycation
+    - name: Print User Verification
       ansible.builtin.debug:
-        var: user_verifycation.stdout
+        var: user_verification.stdout
