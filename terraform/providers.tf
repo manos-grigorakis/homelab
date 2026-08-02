@@ -26,6 +26,6 @@ provider "proxmox" {
   ssh {
     agent       = true
     username    = var.pve_user
-    private_key = file("~/.ssh/id_ed25519_terraform_homelab")
+    private_key = file(pathexpand(var.pve_ssh_key_private))
   }
 }
