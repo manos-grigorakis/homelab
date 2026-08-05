@@ -79,6 +79,27 @@ config: |
       # Optional: Enable the GenAI review summary feature (default: shown below)
       enabled: False
 
+  # Optional: Authentication configuration
+  auth:
+    # Optional: Enable authentication
+    enabled: True
+    # Optional: Reset the admin user password on startup
+    # New password is printed in the logs
+    reset_admin_password: true #TODO: disable it after changing pass
+    # Optional: Refresh time in seconds (default: shown below)
+    # When the session is going to expire in less time than this setting,
+    # it will be refreshed back to the session_length.
+    refresh_time: 1800 # 30 minutes
+    # Optional: Rate limiting for login failures to help prevent brute force
+    # login attacks (default: shown below)
+    # See the docs for more information on valid values
+    failed_login_rate_limit: "1/second;5/minute;20/hour"
+    # Optional: Trusted proxies for determining IP address to rate limit
+    # NOTE: This is only used for rate limiting login attempts and does not bypass
+    # authentication. See the authentication docs for more details.
+    trusted_proxies:
+      - 10.42.0.0/16
+
   # Optional: Motion configuration
   # NOTE: Can be overridden at the camera level
   motion:

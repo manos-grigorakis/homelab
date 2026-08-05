@@ -13,7 +13,7 @@ spec:
         - name: frigate
           kind: Service
           namespace: frigate
-          scheme: http
-          port: 5000
+          scheme: https
+          port: 8971
   tls:
     secretName: poolnode-wildcard-tls
