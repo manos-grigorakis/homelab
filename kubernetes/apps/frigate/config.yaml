@@ -128,7 +128,7 @@ config: |
   go2rtc:
     streams:
       front_room:
-        - rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mp4
+        - rtsp://9627b0bf2a7b.entrypoint.cloud.wowza.com:1935/app-p5260J38/66abe4b9_stream1
 
   # Required
   cameras:
