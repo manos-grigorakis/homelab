@@ -135,6 +135,7 @@ securityContext:
     add:
       - SETUID
       - SETGID
+      - CHOWN
   privileged: false
   readOnlyRootFilesystem: true
 
