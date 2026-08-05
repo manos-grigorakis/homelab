@@ -1,0 +1,19 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: frigate-ui
+  namespace: frigate
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`frigate.poolnode.net`)
+      kind: Rule
+      services:
+        - name: frigate
+          kind: Service
+          namespace: frigate
+          scheme: http
+          port: 5000
+  tls:
+    secretName: poolnode-wildcard-tls
