@@ -43,6 +43,8 @@ extraVolumes:
       path: /dev/dri
   - name: home
     emptyDir: {}
+  - name: run
+    emptyDir: {}
 
 # -- declare additional volume mounts
 extraVolumeMounts:
@@ -50,6 +52,8 @@ extraVolumeMounts:
     mountPath: /dev/dri
   - name: home
     mountPath: /tmp/home
+  - name: run
+    mountPath: /run
 
 # -- amount of shared memory to use for caching
 shmSize: 1Gi
