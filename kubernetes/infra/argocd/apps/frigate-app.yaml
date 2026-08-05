@@ -19,7 +19,7 @@ spec:
             path: config.yaml
 
     - repoURL: https://github.com/manos-grigorakis/homelab.git
-      targetRevision: main
+      targetRevision: feat/frigate
       path: kubernetes/apps/frigate
       ref: values
   project: default
