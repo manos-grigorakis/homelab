@@ -113,6 +113,9 @@ resources:
     memory: 4Gi
     # gpu.intel.com/i915: 1
 
+podSecurityContext:
+  supplementalGroups: [44, 993] # video, render
+
 # -- Set Pod affinity rules
 affinity:
   nodeAffinity:
