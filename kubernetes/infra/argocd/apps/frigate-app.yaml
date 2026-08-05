@@ -16,7 +16,7 @@ spec:
           - $values/kubernetes/apps/frigate/values.yaml
         fileParameters:
           - name: config
-            path: config.yaml
+            path: kubernetes/apps/frigate/config.yaml
 
     - repoURL: https://github.com/manos-grigorakis/homelab.git
       targetRevision: feat/frigate
