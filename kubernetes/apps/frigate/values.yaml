@@ -13,12 +13,6 @@ image:
   # -- Docker image pull policy
   pullPolicy: IfNotPresent
 
-env:
-  TZ: "Europe/Athens"
-  S6_YES_I_WANT_A_WORLD_WRITABLE_RUN_BECAUSE_KUBERNETES: "1"
-  S6_CATCHALL_USER: "3007"
-  HOME: "/tmp/home"
-
 # -- set environment variables from Secret(s)
 envFromSecrets:
   # secrets are required before `helm install`
@@ -41,19 +35,11 @@ extraVolumes:
   - name: igpu-device
     hostPath:
       path: /dev/dri
-  - name: home
-    emptyDir: {}
-  - name: run
-    emptyDir: {}
 
 # -- declare additional volume mounts
 extraVolumeMounts:
   - name: igpu-device
     mountPath: /dev/dri
-  - name: home
-    mountPath: /tmp/home
-  - name: run
-    mountPath: /run
 
 # -- amount of shared memory to use for caching
 shmSize: 1Gi
@@ -126,28 +112,6 @@ resources:
     cpu: 500m
     memory: 4Gi
     # gpu.intel.com/i915: 1
-
-# -- Set Frigate Container Security Context
-securityContext:
-  capabilities:
-    drop:
-      - ALL
-    add:
-      - SETUID
-      - SETGID
-      - CHOWN
-  privileged: false
-  readOnlyRootFilesystem: true
-
-# -- Set Pod level Security Context
-# -- the container level securiy context defined above
-# -- will override it for frigate container
-podSecurityContext:
-  runAsNonRoot: true
-  runAsUser: 3007 # Frigate NAS user
-  runAsGroup: 3011 # Frigate NAS group
-  fsGroup: 3011 # Frigate NAS group
-  supplementalGroups: [44, 993] # video and render
 
 # -- Set Pod affinity rules
 affinity:
