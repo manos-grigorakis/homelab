@@ -116,6 +116,9 @@ resources:
 podSecurityContext:
   supplementalGroups: [44, 993] # video, render
 
+securityContext:
+  privileged: true
+
 # -- Set Pod affinity rules
 affinity:
   nodeAffinity:
