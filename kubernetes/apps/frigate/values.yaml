@@ -1,0 +1,131 @@
+# Default values for frigate.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# -- upgrade strategy type (e.g. Recreate or RollingUpdate)
+strategyType: Recreate
+
+image:
+  # -- Docker registry/repository to pull the image from
+  repository: ghcr.io/blakeblackshear/frigate
+  # -- Overrides the default tag (appVersion) used in Chart.yaml ([Docker Hub](https://hub.docker.com/r/blakeblackshear/frigate/tags?page=1))
+  tag: "0.17.2"
+  # -- Docker image pull policy
+  pullPolicy: IfNotPresent
+
+# -- set environment variables from Secret(s)
+envFromSecrets:
+  # secrets are required before `helm install`
+  # - frigate-rstp-credentials
+  - frigate-secret
+
+coral:
+  # -- enables the use of a Coral device
+  enabled: false
+  # -- path on the host to which to mount the Coral device
+  hostPath: /dev/bus/usb
+
+gpu:
+  nvidia:
+    # -- Enables NVIDIA GPU compatibility. Must also use the "amd64nvidia" tagged image
+    enabled: false
+
+# -- declare extra volumes to use for Frigate
+extraVolumes:
+  - name: igpu-device
+    hostPath:
+      path: /dev/dri
+
+# -- declare additional volume mounts
+extraVolumeMounts:
+  - name: igpu-device
+    mountPath: /dev/dri
+
+# -- amount of shared memory to use for caching
+shmSize: 1Gi
+
+# -- use memory for tmpfs (mounted to /tmp)
+tmpfs:
+  enabled: true
+  sizeLimit: 1Gi
+
+# -- frigate configuration - see [Docs](https://docs.frigate.video/configuration/index) for more info
+## !NOTE: Handled by ArgoCD
+config: {}
+
+ingress:
+  # -- Enables the use of an Ingress Controller to front the Service and can provide HTTPS
+  enabled: false
+
+persistence:
+  data:
+    # Data directory is obsolete. Use config and media instead.
+    enabled: false
+
+  config:
+    # -- Enables persistence for the config directory
+    enabled: true
+    ## frigate data Persistent Volume Storage Class
+    ## If defined, storageClassName: <storageClass>
+    ## If set to "-", storageClassName: "", which disables dynamic provisioning
+    ## If undefined (the default) or set to null, no storageClassName spec is
+    ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
+    ##   GKE, AWS & OpenStack)
+    ##
+    storageClass: "longhorn"
+
+    # -- [access mode](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#access-modes) to use for the PVC
+    accessMode: ReadWriteOnce
+
+    # -- size/capacity of the PVC
+    size: 1Gi
+
+    # -- Do not delete the pvc upon helm uninstall
+    skipuninstall: true
+
+    ## Copy configMap config into volume to make writable
+    ## All live changes are lost when pod restarts, but this allows
+    ## an easy way to run migrations and edit config, then scrape
+    ## it from the API or copy out of the pod and update local helm values
+    ephemeralWritableConfigYaml: true
+
+  media:
+    # -- Enables persistence for the media directory
+    enabled: true
+
+    ##
+    ## If you want to reuse an existing claim, you can pass the name of the PVC using
+    ## the existingClaim variable
+    existingClaim: surveillance-pvc
+    # subPath: some-subpath
+
+    # -- Do not delete the pvc upon helm uninstall
+    skipuninstall: true
+
+# -- Set resource limits/requests for the Pod(s)
+resources:
+  limits:
+    cpu: "2"
+    memory: 8Gi
+    # gpu.intel.com/i915: 1
+  requests:
+    cpu: 500m
+    memory: 4Gi
+    # gpu.intel.com/i915: 1
+
+podSecurityContext:
+  supplementalGroups: [44, 993] # video, render
+
+securityContext:
+  privileged: true
+
+# -- Set Pod affinity rules
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: gpu
+              operator: In
+              values:
+                - "true"

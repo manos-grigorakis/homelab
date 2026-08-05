@@ -1,0 +1,205 @@
+config: |
+  mqtt:
+    enabled: False
+
+  detectors:
+    ov_0:
+      type: openvino
+      device: GPU
+
+  # Optional: model modifications
+  # NOTE: The default values are for the EdgeTPU detector.
+  # Other detectors will require the model config to be set.
+  model:
+    # Required: path to the model. Frigate+ models use plus://<model_id> (default: automatic based on detector)
+    path: /openvino-model/ssdlite_mobilenet_v2.xml
+    # Required: path to the labelmap (default: shown below)
+    labelmap_path: /openvino-model/coco_91cl_bkgr.txt
+    # Required: Object detection model input width (default: shown below)
+    width: 300
+    # Required: Object detection model input height (default: shown below)
+    height: 300
+    # Required: Object detection model input colorspace
+    # Valid values are rgb, bgr, or yuv.
+    input_pixel_format: bgr
+    # Required: Object detection model input tensor format
+    # Valid values are nhwc or nchw (default: shown below)
+    input_tensor: nhwc
+
+  # Optional: Audio Events Configuration
+  # NOTE: Can be overridden at the camera level
+  audio:
+    # Optional: Enable audio events (default: shown below)
+    enabled: False
+
+  # Optional: birdseye configuration
+  # NOTE: Can (enabled, mode) be overridden at the camera level
+  birdseye:
+    # Optional: Enable birdseye view (default: shown below)
+    enabled: False
+
+  # Optional: ffmpeg configuration
+  # More information about presets at https://docs.frigate.video/configuration/ffmpeg_presets
+  ffmpeg:
+    # Optional: global hwaccel args (default: auto detect)
+    # NOTE: See hardware acceleration docs for your specific device
+    hwaccel_args: "preset-intel-qsv-h264"
+    # Optional: Set tag on HEVC (H.265) recording stream to improve compatibility with Apple players. (default: shown below)
+    apple_compatibility: true
+
+  # Optional: Detect configuration
+  # NOTE: Can be overridden at the camera level
+  detect:
+    # Optional: enables detection for the camera (default: shown below)
+    enabled: True
+
+  # Optional: Review configuration
+  # NOTE: Can be overridden at the camera level
+  review:
+    # Optional: alerts configuration
+    alerts:
+      # Optional: enables alerts for the camera (default: shown below)
+      enabled: True
+      # Optional: labels that qualify as an alert (default: shown below)
+      labels:
+        - person
+      # Time to cutoff alerts after no alert-causing activity has occurred (default: shown below)
+      cutoff_time: 40
+    # Optional: detections configuration
+    detections:
+      # Optional: enables detections for the camera (default: shown below)
+      enabled: True
+      # Optional: labels that qualify as a detection (default: all labels that are tracked / listened to)
+      labels:
+        - person
+      # Time to cutoff detections after no detection-causing activity has occurred (default: shown below)
+      cutoff_time: 30
+    # Optional: GenAI Review Summary Configuration
+    genai:
+      # Optional: Enable the GenAI review summary feature (default: shown below)
+      enabled: False
+
+  # Optional: Authentication configuration
+  auth:
+    # Optional: Enable authentication
+    enabled: True
+    # Optional: Reset the admin user password on startup
+    # New password is printed in the logs
+    reset_admin_password: False
+    # Optional: Rate limiting for login failures to help prevent brute force
+    # login attacks
+    # See the docs for more information on valid values
+    failed_login_rate_limit: "1/second;5/minute;20/hour"
+    # Optional: Trusted proxies for determining IP address to rate limit
+    # NOTE: This is only used for rate limiting login attempts and does not bypass
+    # authentication. See the authentication docs for more details.
+    trusted_proxies:
+      - 10.42.0.0/16
+
+  # Optional: Motion configuration
+  # NOTE: Can be overridden at the camera level
+  motion:
+    # Optional: enables detection for the camera (default: True)
+    # NOTE: Motion detection is required for object detection,
+    #       setting this to False and leaving detect enabled
+    #       will result in an error on startup.
+    enabled: True
+
+  # Optional: Notification Configuration
+  # NOTE: Can be overridden at the camera level (except email)
+  notifications:
+    # Optional: Enable notification service
+    enabled: True
+    # Optional: Email for push service to reach out to
+    # NOTE: This is required to use notifications
+    email: "admin@poolnode.net"
+    # Optional: Cooldown time for notifications in seconds
+    cooldown: 15
+
+  # Optional: Record configuration
+  # NOTE: Can be overridden at the camera level
+  record:
+    # Optional: Enable recording
+    # WARNING: If recording is disabled in the config, turning it on via
+    #          the UI or MQTT later will have no effect.
+    enabled: True
+    # Optional: Two-way sync recordings database with disk on startup and once a day
+    sync_recordings: True
+
+  # Optional: Configuration for the jpg snapshots written to the clips directory for each tracked object
+  # NOTE: Can be overridden at the camera level
+  snapshots:
+    # Optional: Enable writing jpg snapshot to /media/frigate/clips (default: shown below)
+    enabled: True
+
+  # Optional: Configuration for face recognition capability
+  # NOTE: enabled, min_area can be overridden at the camera level
+  face_recognition:
+    # Optional: Enable face recognition (default: shown below)
+    enabled: True
+
+  # Optional: Restream configuration
+  # Uses https://github.com/AlexxIT/go2rtc (v1.9.10)
+  # NOTE: The default go2rtc API port (1984) must be used,
+  #       changing this port for the integrated go2rtc instance is not supported.
+  go2rtc:
+    streams:
+      front_room:
+        - rtsp://9627b0bf2a7b.entrypoint.cloud.wowza.com:1935/app-p5260J38/66abe4b9_stream1
+
+  # Required
+  cameras:
+    # Required: name of the camera
+    front_room:
+      # Optional: Enable/Disable the camera (default: shown below).
+      # If disabled: config is used but no live stream and no capture etc.
+      # Events/Recordings are still viewable.
+      enabled: True
+      # Required: ffmpeg settings for the camera
+      ffmpeg:
+        # Required: A list of input streams for the camera. See documentation for more information.
+        inputs:
+          # Required: the path to the stream
+          # NOTE: path may include environment variables or docker secrets, which must begin with 'FRIGATE_' and be referenced in {}
+          - path: rtsp://127.0.0.1:8554/front_room
+            # Required: list of roles for this stream. valid values are: audio,detect,record
+            # NOTICE: In addition to assigning the audio, detect, and record roles
+            # they must also be enabled in the camera config.
+            roles:
+              - detect
+              - record
+      detect:
+        width: 1280
+        height: 720
+
+      # Optional: Configuration for the jpg snapshots published via MQTT
+      mqtt:
+        # Optional: Enable publishing snapshot via mqtt for camera (default: shown below)
+        # NOTE: Only applies to publishing image data to MQTT via 'frigate/<camera_name>/<object_name>/snapshot'.
+        # All other messages will still be published.
+        enabled: True
+
+  # Optional
+  ui:
+    # Optional: Set a timezone to use in the UI (default: use browser local time)
+    # timezone: America/Denver
+    # Optional: Set the time format used.
+    # Options are browser, 12hour, or 24hour
+    time_format: browser
+    # Optional: Set the date style for a specified length.
+    # Options are: full, long, medium, short
+    # Examples:
+    #    short: 2/11/23
+    #    medium: Feb 11, 2023
+    #    full: Saturday, February 11, 2023
+    date_style: medium
+    # Optional: Set the time style for a specified length.
+    # Options are: full, long, medium, short
+    # Examples:
+    #    short: 8:14 PM
+    #    medium: 8:15:22 PM
+    #    full: 8:15:22 PM Mountain Standard Time
+    time_style: medium
+    # Optional: Set the unit system to either "imperial" or "metric" (default: metric)
+    # Used in the UI and in MQTT topics
+    unit_system: metric
