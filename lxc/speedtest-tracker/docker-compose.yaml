@@ -1,6 +1,6 @@
 services:
   speedtest-tracker:
-    image: "linuxserver/speedtest-tracker:1.13.12"
+    image: "linuxserver/speedtest-tracker:1.14.7"
     restart: unless-stopped
     container_name: speedtest-tracker
     ports:
