@@ -19,6 +19,17 @@ locals {
       startup_order = null
     }
 
+    "cloudflare-tunnel" = {
+      id            = 104
+      hostname      = "cloudflare-tunnel"
+      tags          = ["terraform"]
+      cpu_cores     = 1
+      memory        = 512
+      ipv4          = "192.168.10.44/24"
+      storage_size  = 10
+      startup_order = 1
+    }
+
     "netbox" = {
       id            = 105
       hostname      = "netbox"
