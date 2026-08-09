@@ -143,11 +143,6 @@ config: |
   # NOTE: The default go2rtc API port (1984) must be used,
   #       changing this port for the integrated go2rtc instance is not supported.
   go2rtc:
-    webrtc:
-      candidates:
-        - 192.168.10.127:8555
-        - stun:8555
-
     streams:
       front_room:
         - rtsp://9627b0bf2a7b.entrypoint.cloud.wowza.com:1935/app-p5260J38/66abe4b9_stream1
