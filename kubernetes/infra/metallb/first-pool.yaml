@@ -12,3 +12,4 @@ spec:
     - 192.168.10.124/32 # Plex Service LB
     - 192.168.10.125/32 # Wazuh
     - 192.168.10.126/32 # PostgresSQL
+    - 192.168.10.127/32 # Frigate API / streams
