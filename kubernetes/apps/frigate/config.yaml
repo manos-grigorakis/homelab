@@ -1,6 +1,10 @@
 config: |
   mqtt:
-    enabled: False
+    enabled: True
+    host: "{FRIGATE_MQTT_HOST}"
+    port: 1883
+    user: "{FRIGATE_MQTT_USER}"
+    password: "{FRIGATE_MQTT_PASSWORD}"
 
   detectors:
     ov_0:
