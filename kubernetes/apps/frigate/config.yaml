@@ -148,13 +148,15 @@ config: |
   #       changing this port for the integrated go2rtc instance is not supported.
   go2rtc:
     streams:
-      front_room:
-        - rtsp://9627b0bf2a7b.entrypoint.cloud.wowza.com:1935/app-p5260J38/66abe4b9_stream1
+      office:
+        - rtsp://{FRIGATE_RTSP_USER}:{FRIGATE_RTSP_PASSWORD}@192.168.20.103:554/h264Preview_01_main
+      office_sub:
+        - rtsp://{FRIGATE_RTSP_USER}:{FRIGATE_RTSP_PASSWORD}@192.168.20.103:554/h264Preview_01_sub
 
   # Required
   cameras:
     # Required: name of the camera
-    front_room:
+    office:
       # Optional: Enable/Disable the camera (default: shown below).
       # If disabled: config is used but no live stream and no capture etc.
       # Events/Recordings are still viewable.
@@ -163,19 +165,21 @@ config: |
       ffmpeg:
         # Required: A list of input streams for the camera. See documentation for more information.
         inputs:
-          # Required: the path to the stream
-          # NOTE: path may include environment variables or docker secrets, which must begin with 'FRIGATE_' and be referenced in {}
-          - path: rtsp://127.0.0.1:8554/front_room
-            # Required: list of roles for this stream. valid values are: audio,detect,record
-            # NOTICE: In addition to assigning the audio, detect, and record roles
-            # they must also be enabled in the camera config.
+          - path: rtsp://127.0.0.1:8554/office_sub
             roles:
               - detect
+          - path: rtsp://127.0.0.1:8554/office
+            roles:
               - record
       detect:
         width: 1280
         height: 720
-
+      onvif:
+        host: 192.168.20.103
+        port: 8000
+        user: "{FRIGATE_RTSP_USER}"
+        password: "{FRIGATE_RTSP_PASSWORD}"
+        
       # Optional: Configuration for the jpg snapshots published via MQTT
       mqtt:
         # Optional: Enable publishing snapshot via mqtt for camera (default: shown below)
