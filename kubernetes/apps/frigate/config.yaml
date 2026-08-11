@@ -174,7 +174,12 @@ config: |
       detect:
         width: 1280
         height: 720
-
+      onvif:
+        host: 192.168.20.103
+        port: 8000
+        user: "{FRIGATE_RTSP_USER}"
+        password: "{FRIGATE_RTSP_PASSWORD}"
+        
       # Optional: Configuration for the jpg snapshots published via MQTT
       mqtt:
         # Optional: Enable publishing snapshot via mqtt for camera (default: shown below)
