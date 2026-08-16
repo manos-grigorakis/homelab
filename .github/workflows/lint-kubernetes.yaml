@@ -57,5 +57,6 @@ jobs:
             -ignore-filename-pattern '.*opensearch.*\.ya?ml$' \
             -ignore-filename-pattern '.*/grafana/dashboards/.*' \
             -ignore-filename-pattern '.*/grafana/datasources/.*' \
+            -ignore-filename-pattern '^kubernetes/apps/frigate/config\.yaml$' \
             kubernetes/
         shell: bash
