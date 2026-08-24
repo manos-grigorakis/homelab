@@ -24,6 +24,10 @@ httpRoute:
 ingress:
   enabled: false
 
+phpClientHttpsFix:
+  enabled: true
+  protocol: https
+
 nextcloud:
   host: cloud.poolnode.net
   ## Use an existing secret
