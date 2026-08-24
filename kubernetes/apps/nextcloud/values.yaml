@@ -218,6 +218,15 @@ cronjob:
     successfulJobsHistoryLimit: 3
     failedJobsHistoryLimit: 5
 
+    # Allow configuration of lifecycle hooks
+    # ref: https://kubernetes.io/docs/tasks/configure-pod-container/attach-handler-lifecycle-event/
+    # Set securityContext parameters. For example, you may need to define runAsNonRoot directive
+    securityContext:
+      runAsUser: 33
+      runAsGroup: 33
+      runAsNonRoot: true
+      readOnlyRootFilesystem: true
+
 ## Enable persistence using Persistent Volume Claims
 ## ref: https://kubernetes.io/docs/concepts/storage/persistent-volumes/
 ##
