@@ -8,9 +8,6 @@ image:
   tag: 34.0.3
   pullPolicy: IfNotPresent
 
-nameOverride: ""
-fullnameOverride: ""
-
 # Number of replicas to be deployed
 replicaCount: 1
 
@@ -41,8 +38,6 @@ nextcloud:
     smtpPasswordKey: SMTP_PASSWORD
     smtpHostKey: SMTP_HOST
   update: 0
-  persistence:
-    subPath:
   # if set, we'll template this list to the NEXTCLOUD_TRUSTED_DOMAINS env var
   trustedDomains:
     - "cloud.poolnode.net"
