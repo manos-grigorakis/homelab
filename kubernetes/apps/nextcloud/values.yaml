@@ -144,12 +144,6 @@ externalRedis:
   ## Redis port
   port: "6379"
 
-  ## Use a existing secret
-  existingSecret:
-    enabled: false
-    secretName: nameofsecret
-    passwordKey: redis-password
-
 ##
 ## Redis chart configuration
 ## for more options see https://github.com/bitnami/charts/tree/main/bitnami/redis
@@ -163,7 +157,7 @@ redis:
 ## for more options see https://github.com/CollaboraOnline/online/tree/master/kubernetes/helm/collabora-online
 ##
 collabora:
-  enabled: false
+  enabled: true
 
   autoscaling:
     # enable autocaling, please check collabora README.md first
@@ -171,8 +165,8 @@ collabora:
 
   collabora:
     ## HTTPS nextcloud domain, if needed
-    aliasgroups: []
-    #   - host: "https://nextcloud.domain:443"
+    aliasgroups:
+      - host: "https://nextcloud.poolnode.net:443"
 
     # set extra parameters for collabora
     # you may need to add --o:ssl.termination=true
@@ -187,9 +181,9 @@ collabora:
       # if set, ignores collabora.collabora.username and password
       enabled: true
       # name of existing Kubernetes Secret with collboara admin credentials
-      secretName: ""
-      usernameKey: "username"
-      passwordKey: "password"
+      secretName: "nextcloud-secrets"
+      usernameKey: "COLLABORA_USERNAME"
+      passwordKey: "COLLABORA_PASSWORD"
 
   # setup ingress
   ingress:
@@ -197,7 +191,13 @@ collabora:
     enabled: false
 
   # see collabora helm README.md for recommended values
-  resources: {}
+  resources:
+    limits:
+      cpu: 2
+      memory: 2048Mi
+    requests:
+      cpu: 100m
+      memory: 512Mi
 
 ## Cronjob to execute Nextcloud background tasks
 ## ref: https://docs.nextcloud.com/server/latest/admin_manual/configuration_server/background_jobs_configuration.html#cron
