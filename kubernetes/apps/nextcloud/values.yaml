@@ -177,7 +177,7 @@ collabora:
 
     # set extra parameters for collabora
     # you may need to add --o:ssl.termination=true
-    extra_params: --o:ssl.enable=false --o:ssl.termination=true --o:logging.level=trace
+    extra_params: --o:ssl.enable=false --o:ssl.termination=true
 
     ## Specify server_name when the hostname is not reachable directly for
     # example behind reverse-proxy. example: collabora.domain
