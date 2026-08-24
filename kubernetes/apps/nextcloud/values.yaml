@@ -139,7 +139,7 @@ externalRedis:
   enabled: true
 
   ## Redis host
-  host: "redis.databases.svc.cluster.local"
+  host: "redis-master.databases.svc.cluster.local"
 
   ## Redis port
   port: "6379"
