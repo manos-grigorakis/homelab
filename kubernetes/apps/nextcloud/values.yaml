@@ -202,6 +202,15 @@ collabora:
       cpu: 100m
       memory: 512Mi
 
+  securityContext:
+    allowPrivilegeEscalation: true
+    capabilities:
+      add:
+        - MKNOD
+        - SYS_CHROOT
+        - FOWNER
+        - DAC_OVERRIDE
+
 ## Cronjob to execute Nextcloud background tasks
 ## ref: https://docs.nextcloud.com/server/latest/admin_manual/configuration_server/background_jobs_configuration.html#cron
 ##
