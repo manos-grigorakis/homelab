@@ -106,6 +106,18 @@ nextcloud:
         'allow_local_remote_servers' => true,
       );
 
+  # Extra mounts for the pods. Example shown is for connecting a legacy NFS volume
+  # to NextCloud pods in Kubernetes. This can then be configured in External Storage
+  extraVolumes:
+    - name: nfs
+      nfs:
+        server: "192.168.10.100"
+        path: "/mnt/tank/users"
+        readOnly: false
+  extraVolumeMounts:
+    - name: nfs
+      mountPath: "/mnt/nas"
+
 internalDatabase:
   enabled: false
 
