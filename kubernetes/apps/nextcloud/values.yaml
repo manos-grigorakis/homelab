@@ -25,7 +25,7 @@ ingress:
   enabled: false
 
 nextcloud:
-  host: nextcloud.poolnode.net
+  host: cloud.poolnode.net
   ## Use an existing secret
   existingSecret:
     enabled: true
@@ -166,7 +166,7 @@ collabora:
   collabora:
     ## HTTPS nextcloud domain, if needed
     aliasgroups:
-      - host: "https://nextcloud.poolnode.net:443"
+      - host: "https://cloud.poolnode.net:443"
 
     # set extra parameters for collabora
     # you may need to add --o:ssl.termination=true
