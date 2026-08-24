@@ -96,6 +96,16 @@ nextcloud:
     # -- imaginary support config
     imaginary.config.php: true
 
+  # Extra config files created in /var/www/html/config/
+  # ref: https://docs.nextcloud.com/server/latest/admin_manual/configuration_server/config_sample_php_parameters.html#multiple-config-php-file
+  configs:
+    # Allows outbound connections to local services (i.e. Authentik)
+    security.config.php: |-
+      <?php
+      $CONFIG = array (
+        'allow_local_remote_servers' => true,
+      );
+
 internalDatabase:
   enabled: false
 
