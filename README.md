@@ -138,6 +138,7 @@ homelab
 | [Vaultwarden](https://github.com/dani-garcia/vaultwarden) | Passwords Manager     | LXC                         | Site A   |
 | [n8n](https://n8n.io/)                                    | Workflows Automations | Cluster                     | Site A   |
 | [Coolify](https://coolify.io/)                            | Deployment Platform   | LXC                         | Site A   |
+| [Nextcloud](https://nextcloud.com/)                       | Cloud                 | Cluster                     | Site A   |
 
 </details>
 
