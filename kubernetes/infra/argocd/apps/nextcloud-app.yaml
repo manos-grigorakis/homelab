@@ -16,7 +16,7 @@ spec:
           - $values/kubernetes/apps/nextcloud/values.yaml
 
     - repoURL: https://github.com/manos-grigorakis/homelab.git
-      targetRevision: feat/nextcloud
+      targetRevision: main
       path: kubernetes/apps/nextcloud
       ref: values
   project: default
