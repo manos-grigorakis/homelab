@@ -6,7 +6,7 @@
 # enabling node-agent). Required.
 image:
   repository: velero/velero
-  tag: v1.18.1
+  tag: v1.18.2
   pullPolicy: IfNotPresent
 
 # Number of old history to retain to allow rollback (If not set, default Kubernetes value is set to 10)
