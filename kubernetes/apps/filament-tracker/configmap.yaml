@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: filament-tracker-backend-config
+  namespace: filament-tracker
+data:
+  # Must include the frontend's public origin(s), JSON array
+  CORS_ORIGINS: '["https://filament-tracker.poolnode.net"]'
+
+  # Runs `alembic upgrade head` on container start — see backend/docker-entrypoint.sh.
+  # If you ever scale replicas beyond 1, consider moving migrations to a separate Job
+  # so concurrent pod starts don't race against each other.
+  RUN_MIGRATIONS: "true"
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: filament-tracker-frontend-config
+  namespace: filament-tracker
+data:
+  # Same-origin, path-based routing (see ingressroute.yaml) — Traefik sends
+  # /api/* on this hostname to the backend Service, everything else to
+  # nginx. Relative on purpose: written into /config.js at container start,
+  # see frontend/docker-entrypoint.sh.
+  API_BASE_URL: "/api"

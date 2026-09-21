@@ -1,0 +1,26 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: filament-tracker
+  namespace: filament-tracker
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    # API → FastAPI
+    - match: Host(`filament-tracker.poolnode.net`) && PathPrefix(`/api`)
+      kind: Rule
+      priority: 20
+      services:
+        - name: filament-tracker-backend
+          port: 8000
+
+    # Everything else → React/nginx
+    - match: Host(`filament-tracker.poolnode.net`)
+      kind: Rule
+      priority: 10
+      services:
+        - name: filament-tracker-frontend
+          port: 80
+  tls:
+    secretName: poolnode-wildcard-tls
