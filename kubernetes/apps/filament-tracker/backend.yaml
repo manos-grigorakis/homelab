@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: filament-tracker-backend
+  namespace: filament-tracker
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: filament-tracker-backend
+  template:
+    metadata:
+      labels:
+        app: filament-tracker-backend
+    spec:
+      serviceAccountName: filament-tracker-service-account
+      containers:
+        - name: backend
+          image: manosgrigorakis/filament-tracker-backend@sha256:056b59aeb2d08c736001ff8c3a51aa2bd77a6d1ab358b48f40b8872435352470
+          imagePullPolicy: IfNotPresent
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "50m"
+            limits:
+              memory: "256Mi"
+              cpu: "500m"
+          ports:
+            - name: http
+              containerPort: 8000
+              protocol: TCP
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          envFrom:
+            - configMapRef:
+                name: filament-tracker-backend-config
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: filament-tracker-secret
+                  key: DATABASE_URL

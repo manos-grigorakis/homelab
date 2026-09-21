@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: filament-tracker
+  namespace: argocd
+spec:
+  destination:
+    namespace: filament-tracker
+    server: https://kubernetes.default.svc
+  source:
+    repoURL: https://github.com/manos-grigorakis/homelab.git
+    targetRevision: main
+    path: kubernetes/apps/filament-tracker
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
