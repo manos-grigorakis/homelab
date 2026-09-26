@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: manosgrigorakis/filament-tracker-frontend@sha256:af7411e624dcee87ddfec229b3be5b9eb90a9247e6e291191a6eca4371efef52
+          image: manosgrigorakis/filament-tracker-frontend@sha256:725269f09e84036643ddd36f0e2f705c2df05a0e03b8c37232dc12abefec329d
           imagePullPolicy: IfNotPresent
           resources:
             requests:

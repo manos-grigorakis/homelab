@@ -18,7 +18,7 @@ spec:
       serviceAccountName: filament-tracker-service-account
       containers:
         - name: backend
-          image: manosgrigorakis/filament-tracker-backend@sha256:056b59aeb2d08c736001ff8c3a51aa2bd77a6d1ab358b48f40b8872435352470
+          image: manosgrigorakis/filament-tracker-backend@sha256:d75836e12f6674f788968480795efb245a66b9d014356b568f82da3b56f8e180
           imagePullPolicy: IfNotPresent
           resources:
             requests:
